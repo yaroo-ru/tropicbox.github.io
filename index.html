@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TropicBox - Доставка экзотических фруктов</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B6B;
+            --accent: #4ECDC4;
+            --bg: #FFF5E6;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+        }
+        
+        .fruit-card {
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .fruit-card:hover {
+            transform: rotateY(15deg) rotateX(5deg) scale(1.05);
+        }
+        
+        .timer-circle {
+            stroke-dasharray: 251;
+            stroke-dashoffset: 251;
+            animation: countdown 60s linear forwards;
+        }
+        
+        @keyframes countdown {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .selected {
+            border: 3px solid var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .language-switcher {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .language-switcher:hover .language-dropdown {
+            display: block;
+        }
+        
+        .language-option {
+            padding: 8px 16px;
+            text-decoration: none;
+            display: block;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        
+        .language-option:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-3xl font-bold text-[#FF6B6B]">Tropic</span>
+                <span class="text-3xl font-bold text-[#4ECDC4]">Box</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.home">Главная</a>
+                <a href="#fruits" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.fruits">Наши фрукты</a>
+                <a href="#weekly" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.weekly">Фрукт недели</a>
+                <a href="#quiz" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.quiz">Найди свой фрукт</a>
+                
+                <div class="language-switcher ml-4">
+                    <button class="flex items-center space-x-1">
+                        <span id="current-language">RU</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="language-dropdown">
+                        <a href="#" class="language-option" onclick="changeLanguage('ru')">Русский (RU)</a>
+                        <a href="#" class="language-option" onclick="changeLanguage('en')">English (EN)</a>
+                    </div>
+                </div>
+            </div>
+            <button class="bg-[#FF6B6B] text-white px-6 py-2 rounded-full hover:bg-[#ff5252] transition md:hidden">
+                Меню
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-16 md:py-24">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    <span class="text-[#FF6B6B]" data-i18n="hero.exotic">Экзотические</span> 
+                    <span class="text-[#4ECDC4]" data-i18n="hero.fruits">фрукты</span> 
+                    <br><span data-i18n="hero.delivery">с доставкой к вам домой</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-8" data-i18n="hero.description">
+                    Откройте для себя самые редкие и вкусные фрукты со всего мира. 
+                    Свежие, органические и доставленные прямо к вашей двери.
+                </p>
+                <div class="flex space-x-4">
+                    <button class="bg-[#FF6B6B] text-white px-8 py-3 rounded-full hover:bg-[#ff5252] transition" data-i18n="hero.order">
+                        <a href="t.me/yarkalash">Заказать сейчас</a>
+                    </button>
+                    <button class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-8 py-3 rounded-full hover:bg-[#4ECDC4] hover:text-white transition" data-i18n="hero.learn">
+                        Узнать больше
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_1a8dx7tj.json" background="transparent" speed="1" style="width: 100%; height: 400px;" loop autoplay></lottie-player>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Fruits -->
+    <section id="fruits" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4" data-i18n="fruits.title">Наша <span class="text-[#FF6B6B]">экзотическая</span> коллекция</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-i18n="fruits.subtitle">
+                Мы предлагаем только лучшие экзотические фрукты с экологичных ферм по всему миру.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Fruit 1 -->
+                <div class="fruit-card bg-white rounded-xl shadow-lg overflow-hidden p-6 text-center">
+                    <img src="dragonfruit.png" alt="Dragon Fruit" class="w-64 h-64 mx-auto object-contain transition-transform duration-500 hover:rotate-6">
+                    <h3 class="text-xl font-bold mt-4" data-i18n="fruits.dragonfruit.name">Драконий фрукт</h3>
+                    <p class="text-gray-600 mt-2" data-i18n="fruits.dragonfruit.desc">Сладкий, освежающий вкус с ярко-розовой мякотью</p>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="text-2xl font-bold text-[#4ECDC4] price" data-price="4.99">449 ₽</span>
+                        <button class="bg-[#FF6B6B] text-white px-4 py-2 rounded-full text-sm hover:bg-[#ff5252] transition" data-i18n="fruits.add">
+                            Добавить в корзину
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Fruit 2 -->
+                <div class="fruit-card bg-white rounded-xl shadow-lg overflow-hidden p-6 text-center">
+                    <img src="mangosteen.png" alt="Mangosteen" class="w-64 h-64 mx-auto object-contain transition-transform duration-500 hover:rotate-6">
+                    <h3 class="text-xl font-bold mt-4" data-i18n="fruits.mangosteen.name">Мангустин</h3>
+                    <p class="text-gray-600 mt-2" data-i18n="fruits.mangosteen.desc">"Королева фруктов" со сладко-терпким вкусом</p>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="text-2xl font-bold text-[#4ECDC4] price" data-price="6.99">629 ₽</span>
+                        <button class="bg-[#FF6B6B] text-white px-4 py-2 rounded-full text-sm hover:bg-[#ff5252] transition" data-i18n="fruits.add">
+                            Добавить в корзину
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Fruit 3 -->
+                <div class="fruit-card bg-white rounded-xl shadow-lg overflow-hidden p-6 text-center">
+                    <img src="rambotan.png" alt="Rambutan" class="w-64 h-64 mx-auto object-contain transition-transform duration-500 hover:rotate-6">
+                    <h3 class="text-xl font-bold mt-4" data-i18n="fruits.rambutan.name">Рамбутан</h3>
+                    <p class="text-gray-600 mt-2" data-i18n="fruits.rambutan.desc">Сочный фрукт, похожий на личи, с волосистой кожурой</p>
+                    <div class="mt-6 flex justify-between items-center">
+                        <span class="text-2xl font-bold text-[#4ECDC4] price" data-price="5.49">494 ₽</span>
+                        <button class="bg-[#FF6B6B] text-white px-4 py-2 rounded-full text-sm hover:bg-[#ff5252] transition" data-i18n="fruits.add">
+                            Добавить в корзину
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-8 py-3 rounded-full hover:bg-[#4ECDC4] hover:text-white transition" data-i18n="fruits.view">
+                    Посмотреть все фрукты
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fruit of the Week -->
+    <section id="weekly" class="py-16 bg-[#FFF5E6]">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4" data-i18n="weekly.title">Фрукт <span class="text-[#FF6B6B]">недели</span></h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-i18n="weekly.subtitle">
+                Каждую неделю мы предлагаем редкий фрукт по специальной цене. Не упустите - эти предложения быстро заканчиваются!
+            </p>
+            
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <div class="relative">
+                            <img src="durian.webp" alt="Durian" class="w-full h-64 object-contain pulse">
+                            <div class="absolute -top-4 -right-4 bg-[#FF6B6B] text-white px-3 py-1 rounded-full text-sm font-bold" data-i18n="weekly.limited">
+                                ЛИМИТИРОВАННО
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold mt-6" data-i18n="weekly.durian.name">Дуриан</h3>
+                        <p class="text-gray-600 mt-2" data-i18n="weekly.durian.desc">
+                            "Король фруктов" - любите его или ненавидите, этот деликатес из Юго-Восточной Азии незабываем благодаря своей кремовой текстуре и сильному аромату.
+                        </p>
+                        <div class="mt-6 flex items-center">
+                            <span class="text-3xl font-bold text-[#4ECDC4] price" data-price="9.99">899 ₽</span>
+                            <span class="ml-4 text-gray-500 line-through price" data-price="14.99">1,349 ₽</span>
+                            <span class="ml-4 bg-[#FF6B6B] text-white px-2 py-1 rounded text-xs" data-i18n="weekly.discount">33% СКИДКА</span>
+                        </div>
+                        <button class="mt-6 w-full bg-[#FF6B6B] text-white px-6 py-3 rounded-full hover:bg-[#ff5252] transition" data-i18n="weekly.add">
+                            Добавить в корзину - ограниченное предложение!
+                        </button>
+                    </div>
+                    <div class="md:w-1/2 bg-[#4ECDC4] p-8 md:p-12 flex flex-col justify-center items-center text-white">
+                        <h3 class="text-xl font-bold mb-6" data-i18n="weekly.hurry">Торопитесь! Предложение заканчивается через:</h3>
+                        <div class="relative w-40 h-40 mb-6">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+                                <circle id="timer-circle" cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div id="countdown-minutes" class="text-3xl font-bold">01</div>
+                                    <div class="text-sm" data-i18n="weekly.minutes">секунд</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-4" data-i18n="weekly.left">Осталось <span class="font-bold">12</span> коробок по этой цене!</p>
+                            <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                                <div class="bg-white h-2 rounded-full" style="width: 30%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12" data-i18n="how.title">Как работает <span class="text-[#FF6B6B]">TropicBox</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="bg-[#FF6B6B] bg-opacity-10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl text-[#FF6B6B]">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3" data-i18n="how.step1.title">Выберите фрукты</h3>
+                    <p class="text-gray-600" data-i18n="how.step1.desc">
+                        Выберите из нашей ротации экзотических фруктов или позвольте нам удивить вас нашими тематическими коробками.
+                    </p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="bg-[#4ECDC4] bg-opacity-10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl text-[#4ECDC4]">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3" data-i18n="how.step2.title">Быстрая доставка</h3>
+                    <p class="text-gray-600" data-i18n="how.step2.desc">
+                        Мы собираем фрукты по заказу и отправляем немедленно, чтобы обеспечить максимальную свежесть при получении.
+                    </p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="bg-[#FF6B6B] bg-opacity-10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl text-[#FF6B6B]">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3" data-i18n="how.step3.title">Наслаждайтесь</h3>
+                    <p class="text-gray-600" data-i18n="how.step3.desc">
+                        Получите советы по приготовлению и интересные факты о каждом фрукте, чтобы улучшить ваш вкусовой опыт.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fruit Quiz -->
+    <section id="quiz" class="py-16 bg-[#FFF5E6]">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4" data-i18n="quiz.title">Какой <span class="text-[#FF6B6B]">экзотический фрукт</span> подходит вам?</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-i18n="quiz.subtitle">
+                Пройдите наш быстрый тест, и мы порекомендуем идеальный экзотический фрукт для ваших вкусовых предпочтений.
+            </p>
+            
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden max-w-2xl mx-auto p-8">
+                <div id="quiz-container">
+                    <div id="quiz-intro" class="text-center">
+                        <h3 class="text-2xl font-bold mb-4" data-i18n="quiz.intro.title">Найдите свой идеальный фрукт</h3>
+                        <p class="text-gray-600 mb-8" data-i18n="quiz.intro.desc">
+                            Ответьте всего на 3 простых вопроса, и мы порекомендуем экзотический фрукт, который вам понравится!
+                        </p>
+                        <button onclick="startQuiz()" class="bg-[#FF6B6B] text-white px-8 py-3 rounded-full hover:bg-[#ff5252] transition" data-i18n="quiz.start">
+                            Начать тест
+                        </button>
+                    </div>
+                    
+                    <div id="quiz-questions" class="hidden">
+                        <!-- Questions will be inserted here by JavaScript -->
+                    </div>
+                    
+                    <div id="quiz-result" class="hidden text-center">
+                        <h3 class="text-2xl font-bold mb-4" data-i18n="quiz.result.title">Ваш идеальный фрукт...</h3>
+                        <div id="result-fruit" class="mb-6">
+                            <!-- Result will be inserted here by JavaScript -->
+                        </div>
+                        <button onclick="resetQuiz()" class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-8 py-3 rounded-full hover:bg-[#4ECDC4] hover:text-white transition" data-i18n="quiz.again">
+                            Пройти тест снова
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12" data-i18n="testimonials.title">Что говорят наши <span class="text-[#FF6B6B]">клиенты</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-[#FFF5E6] p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FF6B6B] rounded-full flex items-center justify-center text-white font-bold text-xl">С</div>
+                        <div class="ml-4">
+                            <h4 class="font-bold">Светлана Ж.</h4>
+                            <div class="flex text-yellow-400">
+                                ★ ★ ★ ★ ★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600" data-i18n="testimonials.review1">
+                        "Драконий фрукт был самым свежим, который я когда-либо пробовала! Розовая мякоть была такой яркой и сладкой. Обязательно закажу снова."
+                    </p>
+                </div>
+                
+                <div class="bg-[#FFF5E6] p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#4ECDC4] rounded-full flex items-center justify-center text-white font-bold text-xl">М</div>
+                        <div class="ml-4">
+                            <h4 class="font-bold">Михаил Т.</h4>
+                            <div class="flex text-yellow-400">
+                                ★ ★ ★ ★ ★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600" data-i18n="testimonials.review2">
+                        "Наконец попробовал дуриан благодаря TropicBox! Руководство по приготовлению было очень полезным. Такой уникальный опыт."
+                    </p>
+                </div>
+                
+                <div class="bg-[#FFF5E6] p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#FF6B6B] rounded-full flex items-center justify-center text-white font-bold text-xl">А</div>
+                        <div class="ml-4">
+                            <h4 class="font-bold">Анна Л.</h4>
+                            <div class="flex text-yellow-400">
+                                ★ ★ ★ ★ ★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600" data-i18n="testimonials.review3">
+                        "Предложения "фрукт недели" просто потрясающие. Я открыла для себя так много новых любимых фруктов, которые никогда бы не попробовала иначе."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 bg-[#4ECDC4] text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6" data-i18n="cta.title">Готовы исследовать мир экзотических фруктов?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto" data-i18n="cta.subtitle">
+                Присоединяйтесь к тысячам любителей фруктов, которые получают свежие, редкие фрукты еженедельно.
+            </p>
+            <button class="bg-[#FF6B6B] text-white px-8 py-3 rounded-full hover:bg-[#ff5252] transition text-lg" data-i18n="cta.button">
+                Начните своё фруктовое путешествие
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl font-bold text-[#FF6B6B]">Tropic</span>
+                        <span class="text-3xl font-bold text-[#4ECDC4]">Box</span>
+                    </div>
+                    <p class="text-gray-400" data-i18n="footer.description">
+                        Доставляем самые экзотические фрукты мира прямо к вашей двери.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4" data-i18n="footer.explore">Исследовать</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.fruits">Наши фрукты</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.subscriptions">Подписки</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.gifts">Подарочные карты</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.blog">Блог</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4" data-i18n="footer.company">Компания</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.about">О нас</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.sustainability">Устойчивое развитие</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.careers">Карьера</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.contact">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4" data-i18n="footer.connect">Будьте на связи</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#FF6B6B] transition">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#FF6B6B] transition">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#FF6B6B] transition">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="text-gray-400" data-i18n="footer.newsletter">
+                        Подпишитесь на нашу рассылку для получения еженедельных обновлений о фруктах и эксклюзивных предложений.
+                    </p>
+                    <div class="mt-4 flex">
+                        <input type="email" placeholder="Ваш email" class="bg-gray-800 text-white px-4 py-2 rounded-l focus:outline-none w-full">
+                        <button class="bg-[#FF6B6B] px-4 py-2 rounded-r hover:bg-[#ff5252] transition" data-i18n="footer.subscribe">
+                            Подписаться
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">
+                    © 2023 TropicBox. Все права защищены.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white transition text-sm" data-i18n="footer.privacy">Политика конфиденциальности</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition text-sm" data-i18n="footer.terms">Условия обслуживания</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition text-sm" data-i18n="footer.shipping">Условия доставки</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language and currency management
+        const translations = {
+            ru: {
+                "nav.home": "Главная",
+                "nav.fruits": "Наши фрукты",
+                "nav.weekly": "Фрукт недели",
+                "nav.quiz": "Найди свой фрукт",
+                "hero.exotic": "Экзотические",
+                "hero.fruits": "фрукты",
+                "hero.delivery": "с доставкой к вам домой",
+                "hero.description": "Откройте для себя самые редкие и вкусные фрукты со всего мира. Свежие, органические и доставленные прямо к вашей двери.",
+                "hero.order": "Заказать сейчас",
+                "hero.learn": "Узнать больше",
+                "fruits.title": "Наша экзотическая коллекция",
+                "fruits.subtitle": "Мы предлагаем только лучшие экзотические фрукты с экологичных ферм по всему миру.",
+                "fruits.dragonfruit.name": "Драконий фрукт",
+                "fruits.dragonfruit.desc": "Сладкий, освежающий вкус с ярко-розовой мякотью",
+                "fruits.mangosteen.name": "Мангустин",
+                "fruits.mangosteen.desc": "\"Королева фруктов\" со сладко-терпким вкусом",
+                "fruits.rambutan.name": "Рамбутан",
+                "fruits.rambutan.desc": "Сочный фрукт, похожий на личи, с волосистой кожурой",
+                "fruits.add": "Добавить в корзину",
+                "fruits.view": "Посмотреть все фрукты",
+                "weekly.title": "Фрукт недели",
+                "weekly.subtitle": "Каждую неделю мы предлагаем редкий фрукт по специальной цене. Не упустите - эти предложения быстро заканчиваются!",
+                "weekly.limited": "ЛИМИТИРОВАННО",
+                "weekly.durian.name": "Дуриан",
+                "weekly.durian.desc": "\"Король фруктов\" - любите его или ненавидите, этот деликатес из Юго-Восточной Азии незабываем благодаря своей кремовой текстуре и сильному аромату.",
+                "weekly.discount": "33% СКИДКА",
+                "weekly.add": "Добавить в корзину - ограниченное предложение!",
+                "weekly.hurry": "Торопитесь! Предложение заканчивается через:",
+                "weekly.minutes": "секунд",
+                "weekly.left": "Осталось 12 коробок по этой цене!",
+                "how.title": "Как работает TropicBox",
+                "how.step1.title": "Выберите фрукты",
+                "how.step1.desc": "Выберите из нашей ротации экзотических фруктов или позвольте нам удивить вас нашими тематическими коробками.",
+                "how.step2.title": "Быстрая доставка",
+                "how.step2.desc": "Мы собираем фрукты по заказу и отправляем немедленно, чтобы обеспечить максимальную свежесть при получении.",
+                "how.step3.title": "Наслаждайтесь",
+                "how.step3.desc": "Получите советы по приготовлению и интересные факты о каждом фрукте, чтобы улучшить ваш вкусовой опыт.",
+                "quiz.title": "Какой экзотический фрукт подходит вам?",
+                "quiz.subtitle": "Пройдите наш быстрый тест, и мы порекомендуем идеальный экзотический фрукт для ваших вкусовых предпочтений.",
+                "quiz.intro.title": "Найдите свой идеальный фрукт",
+                "quiz.intro.desc": "Ответьте всего на 3 простых вопроса, и мы порекомендуем экзотический фрукт, который вам понравится!",
+                "quiz.start": "Начать тест",
+                "quiz.result.title": "Ваш идеальный фрукт...",
+                "quiz.again": "Пройти тест снова",
+                "testimonials.title": "Что говорят наши клиенты",
+                "testimonials.review1": "\"Драконий фрукт был самым свежим, который я когда-либо пробовала! Розовая мякоть была такой яркой и сладкой. Обязательно закажу снова.\"",
+                "testimonials.review2": "\"Наконец попробовал дуриан благодаря TropicBox! Руководство по приготовлению было очень полезным. Такой уникальный опыт.\"",
+                "testimonials.review3": "\"Предложения \"фрукт недели\" просто потрясающие. Я открыла для себя так много новых любимых фруктов, которые никогда бы не попробовала иначе.\"",
+                "cta.title": "Готовы исследовать мир экзотических фруктов?",
+                "cta.subtitle": "Присоединяйтесь к тысячам любителей фруктов, которые получают свежие, редкие фрукты еженедельно.",
+                "cta.button": "Начните своё фруктовое путешествие",
+                "footer.description": "Доставляем самые экзотические фрукты мира прямо к вашей двери.",
+                "footer.explore": "Исследовать",
+                "footer.fruits": "Наши фрукты",
+                "footer.subscriptions": "Подписки",
+                "footer.gifts": "Подарочные карты",
+                "footer.blog": "Блог",
+                "footer.company": "Компания",
+                "footer.about": "О нас",
+                "footer.sustainability": "Устойчивое развитие",
+                "footer.careers": "Карьера",
+                "footer.contact": "Контакты",
+                "footer.connect": "Будьте на связи",
+                "footer.newsletter": "Подпишитесь на нашу рассылку для получения еженедельных обновлений о фруктах и эксклюзивных предложений.",
+                "footer.subscribe": "Подписаться",
+                "footer.privacy": "Политика конфиденциальности",
+                "footer.terms": "Условия обслуживания",
+                "footer.shipping": "Условия доставки"
+            },
+            en: {
+                "nav.home": "Home",
+                "nav.fruits": "Our Fruits",
+                "nav.weekly": "Fruit of the Week",
+                "nav.quiz": "Find Your Fruit",
+                "hero.exotic": "Exotic",
+                "hero.fruits": "Fruits",
+                "hero.delivery": "Delivered to Your Door",
+                "hero.description": "Discover the rarest, most delicious fruits from around the world. Fresh, organic, and delivered straight to your home.",
+                "hero.order": "Order Now",
+                "hero.learn": "Learn More",
+                "fruits.title": "Our Exotic Selection",
+                "fruits.subtitle": "We source only the finest exotic fruits from sustainable farms around the world.",
+                "fruits.dragonfruit.name": "Dragon Fruit",
+                "fruits.dragonfruit.desc": "Sweet, refreshing taste with vibrant pink flesh",
+                "fruits.mangosteen.name": "Mangosteen",
+                "fruits.mangosteen.desc": "The \"queen of fruits\" with sweet-tangy flavor",
+                "fruits.rambutan.name": "Rambutan",
+                "fruits.rambutan.desc": "Juicy, lychee-like fruit with hairy exterior",
+                "fruits.add": "Add to Box",
+                "fruits.view": "View All Fruits",
+                "weekly.title": "Fruit of the Week",
+                "weekly.subtitle": "Each week we feature a rare fruit at a special price. Don't wait - these deals disappear fast!",
+                "weekly.limited": "LIMITED",
+                "weekly.durian.name": "Durian",
+                "weekly.durian.desc": "The \"king of fruits\" - love it or hate it, this Southeast Asian delicacy is unforgettable with its custard-like texture and strong aroma.",
+                "weekly.discount": "33% OFF",
+                "weekly.add": "Add to Box - Limited Offer!",
+                "weekly.hurry": "Hurry! Offer ends in:",
+                "weekly.minutes": "minutes",
+                "weekly.left": "Only 12 boxes left at this price!",
+                "how.title": "How TropicBox Works",
+                "how.step1.title": "Choose Your Fruits",
+                "how.step1.desc": "Select from our rotating selection of exotic fruits or let us surprise you with our curated boxes.",
+                "how.step2.title": "Fast Delivery",
+                "how.step2.desc": "We harvest to order and ship immediately to ensure maximum freshness upon arrival.",
+                "how.step3.title": "Enjoy & Explore",
+                "how.step3.desc": "Receive preparation tips and fun facts about each fruit to enhance your tasting experience.",
+                "quiz.title": "Which Exotic Fruit is Right for You?",
+                "quiz.subtitle": "Take our quick quiz and we'll recommend the perfect exotic fruit for your taste preferences.",
+                "quiz.intro.title": "Find Your Perfect Fruit Match",
+                "quiz.intro.desc": "Answer just 3 simple questions and we'll recommend an exotic fruit you'll love!",
+                "quiz.start": "Start Quiz",
+                "quiz.result.title": "Your Perfect Fruit Match Is...",
+                "quiz.again": "Take Quiz Again",
+                "testimonials.title": "What Our Customers Say",
+                "testimonials.review1": "\"The dragon fruit was the freshest I've ever had! The pink flesh was so vibrant and sweet. Will definitely order again.\"",
+                "testimonials.review2": "\"Finally tried durian thanks to TropicBox! The preparation guide was super helpful. Such a unique experience.\"",
+                "testimonials.review3": "\"The fruit of the week deals are amazing. I've discovered so many new favorites I never would have tried otherwise.\"",
+                "cta.title": "Ready to Explore the World of Exotic Fruits?",
+                "cta.subtitle": "Join thousands of fruit explorers enjoying fresh, rare fruits delivered weekly.",
+                "cta.button": "Start Your Fruit Journey",
+                "footer.description": "Bringing the world's most exotic fruits straight to your doorstep.",
+                "footer.explore": "Explore",
+                "footer.fruits": "Our Fruits",
+                "footer.subscriptions": "Subscription Boxes",
+                "footer.gifts": "Gift Cards",
+                "footer.blog": "Blog",
+                "footer.company": "Company",
+                "footer.about": "About Us",
+                "footer.sustainability": "Sustainability",
+                "footer.careers": "Careers",
+                "footer.contact": "Contact",
+                "footer.connect": "Stay Connected",
+                "footer.newsletter": "Subscribe to our newsletter for weekly fruit updates and exclusive offers.",
+                "footer.subscribe": "Subscribe",
+                "footer.privacy": "Privacy Policy",
+                "footer.terms": "Terms of Service",
+                "footer.shipping": "Shipping Policy"
+            }
+        };
+
+        const quizQuestions = {
+            ru: [
+                {
+                    question: "Какой вкус вы предпочитаете?",
+                    options: [
+                        { text: "Сладкий и сочный", fruit: "Мангустин" },
+                        { text: "Терпкий и кисловатый", fruit: "Маракуйя" },
+                        { text: "Сливочный и насыщенный", fruit: "Дуриан" },
+                        { text: "Освежающий и лёгкий", fruit: "Драконий фрукт" }
+                    ]
+                },
+                {
+                    question: "Насколько вы готовы экспериментировать с текстурами?",
+                    options: [
+                        { text: "Обожаю необычные текстуры", fruit: "Рамбутан" },
+                        { text: "Предпочитаю гладкие текстуры", fruit: "Манго" },
+                        { text: "Люблю немного хруста", fruit: "Звёздное яблоко" },
+                        { text: "Готов(а) на всё", fruit: "Джекфрут" }
+                    ]
+                },
+                {
+                    question: "Что для вас важнее всего во фрукте?",
+                    options: [
+                        { text: "Внешний вид", fruit: "Питайя" },
+                        { text: "Польза для здоровья", fruit: "Ацерола" },
+                        { text: "Необычный вкус", fruit: "Чудо-ягода" },
+                        { text: "Культурная значимость", fruit: "Рука Будды" }
+                    ]
+                }
+            ],
+            en: [
+                {
+                    question: "What's your preferred flavor profile?",
+                    options: [
+                        { text: "Sweet and juicy", fruit: "Mangosteen" },
+                        { text: "Tart and tangy", fruit: "Passion Fruit" },
+                        { text: "Creamy and rich", fruit: "Durian" },
+                        { text: "Refreshing and light", fruit: "Dragon Fruit" }
+                    ]
+                },
+                {
+                    question: "How adventurous are you with textures?",
+                    options: [
+                        { text: "I love unique textures", fruit: "Rambutan" },
+                        { text: "I prefer smooth textures", fruit: "Mango" },
+                        { text: "I enjoy a bit of crunch", fruit: "Star Apple" },
+                        { text: "I'm open to anything", fruit: "Jackfruit" }
+                    ]
+                },
+                {
+                    question: "What's most important in your fruit experience?",
+                    options: [
+                        { text: "Visual appeal", fruit: "Pitaya" },
+                        { text: "Nutritional benefits", fruit: "Acerola Cherry" },
+                        { text: "Unique taste", fruit: "Miracle Berry" },
+                        { text: "Cultural significance", fruit: "Buddha's Hand" }
+                    ]
+                }
+            ]
+        };
+
+        const fruitInfo = {
+            ru: {
+                "Мангустин": {
+                    desc: "Известный как 'королева фруктов', мангустин предлагает идеальный баланс сладкого и терпкого вкуса с сочной, сегментированной мякотью.",
+                    img: "mangosteen.png"
+                },
+                "Маракуйя": {
+                    desc: "Кислая, ароматная и насыщенная вкусом, маракуйя идеально подходит для добавления пикантности в напитки, десерты или для употребления прямо из кожуры.",
+                    img: "maraquia.png"
+                },
+                "Дуриан": {
+                    desc: "'Король фруктов' знаменит своим сильным ароматом и богатой, кремовой текстурой. Не для слабонервных, но любим гурманами.",
+                    img: "durian.png"
+                },
+                "Драконий фрукт": {
+                    desc: "С его ярко-розовой мякотью и мягким, сладким вкусом, драконий фрукт идеален для тех, кто любит визуально эффектные фрукты с освежающим вкусом.",
+                    img: "dragonfruit.png"
+                },
+                "Рамбутан": {
+                    desc: "Этот волосатый на вид фрукт скрывает сладкую, сочную мякоть, похожую на личи. Идеален для тех, кто любит игривые текстуры и вкусы.",
+                    img: "rambotan.png"
+                },
+                "Манго": {
+                    desc: "Классический тропический фрукт, манго не нуждается в представлении с его сладкой, гладкой мякотью и универсальностью в сладких и солёных блюдах.",
+                    img: "https://cdn.metro-cc.ru/ru/ru_pim_428976001001_01.png"
+                },
+                "Звёздное яблоко": {
+                    desc: "Этот уникальный фрукт имеет молочную, сладкую мякоть с узором в виде звезды при поперечном разрезе. Красивый и вкусный выбор.",
+                    img: "https://avatars.dzeninfra.ru/get-zen_doc/1898210/pub_5dc647f679a58f40873a294b_5dc6485ae8c8e22cded81e5f/scale_1200"
+                },
+                "Джекфрут": {
+                    desc: "Огромный по размеру и универсальный в использовании, джекфрут можно употреблять сладким, когда он созрел, или как заменитель мяса, когда незрелый.",
+                    img: "https://cdn.culture.ru/images/8ca86920-2242-5eca-a1a3-a30b7633bd7d"
+                },
+                "Питайя": {
+                    desc: "Другое название драконьего фрукта, питайя известна своим потрясающим внешним видом и мягким, освежающим вкусом.",
+                    img: "https://avatars.mds.yandex.net/i?id=af39a50580adf03a26edadf67d2b33f0978abe99-4855057-images-thumbs&n=13"
+                },
+                "Ацерола": {
+                    desc: "Богатая витамином С, эта терпкая вишня идеальна для любителей фруктов, заботящихся о здоровье, которые ценят кислый вкус.",
+                    img: "https://avatars.mds.yandex.net/i?id=66304205a436ad947cab585e6e176d6c2266a0f2-2480510-images-thumbs&n=13"
+                },
+                "Чудо-ягода": {
+                    desc: "Эта удивительная ягода временно изменяет вкусовое восприятие, делая кислые продукты сладкими. Обязательна к пробе для кулинарных авантюристов.",
+                    img: "https://i.pinimg.com/originals/4e/88/f5/4e88f5e2917d19a3aa66c06e0f93589e.png"
+                },
+                "Рука Будды": {
+                    desc: "Более ароматный, чем съедобный, этот уникальный цитрус ценится за свой запах и использование для цедры и ароматизации блюд.",
+                    img: "https://i.pinimg.com/originals/a6/cc/16/a6cc16409554571cf3b134e104aac47c.jpg"
+                }
+            },
+            en: {
+                "Mangosteen": {
+                    desc: "Known as the 'queen of fruits', mangosteen offers a perfect balance of sweet and tart flavors with its juicy, segmented flesh.",
+                    img: "mangosteen.png"
+                },
+                "Passion Fruit": {
+                    desc: "Tart, aromatic, and packed with flavor, passion fruit is ideal for adding zing to drinks, desserts, or enjoying straight from the shell.",
+                    img: "maraquia.png"
+                },
+                "Durian": {
+                    desc: "The 'king of fruits' is famous for its strong aroma and rich, custard-like texture. Not for the faint of heart but beloved by adventurous foodies.",
+                    img: "durian.png"
+                },
+                "Dragon Fruit": {
+                    desc: "With its vibrant pink flesh and mild, sweet flavor, dragon fruit is perfect for those who enjoy visually stunning fruits with refreshing taste.",
+                    img: "dragonfruit.png"
+                },
+                "Rambutan": {
+                    desc: "This hairy-looking fruit hides a sweet, juicy flesh similar to lychee. Perfect for those who enjoy playful textures and flavors.",
+                    img: "rambotan.png"
+                },
+                "Mango": {
+                    desc: "The classic tropical fruit, mango needs no introduction with its sweet, smooth flesh and versatility in both sweet and savory dishes.",
+                    img: "https://cdn.metro-cc.ru/ru/ru_pim_428976001001_01.png"
+                },
+                "Star Apple": {
+                    desc: "This unique fruit has a milky, sweet flesh with a star pattern when cut crosswise. A beautiful and delicious choice.",
+                    img: "https://avatars.dzeninfra.ru/get-zen_doc/1898210/pub_5dc647f679a58f40873a294b_5dc6485ae8c8e22cded81e5f/scale_1200"
+                },
+                "Jackfruit": {
+                    desc: "Massive in size and versatile in use, jackfruit can be enjoyed sweet when ripe or as a meat substitute when unripe.",
+                    img: "https://cdn.culture.ru/images/8ca86920-2242-5eca-a1a3-a30b7633bd7d"
+                },
+                "Pitaya": {
+                    desc: "Another name for dragon fruit, pitaya is known for its stunning appearance and mild, refreshing taste.",
+                    img: "https://avatars.mds.yandex.net/i?id=af39a50580adf03a26edadf67d2b33f0978abe99-4855057-images-thumbs&n=13"
+                },
+                "Acerola Cherry": {
+                    desc: "Packed with vitamin C, these tart cherries are perfect for health-conscious fruit lovers who enjoy a tangy flavor.",
+                    img: "https://avatars.mds.yandex.net/i?id=66304205a436ad947cab585e6e176d6c2266a0f2-2480510-images-thumbs&n=13"
+                },
+                "Miracle Berry": {
+                    desc: "This fascinating berry temporarily alters taste perception, making sour foods taste sweet. A must-try for culinary adventurers.",
+                    img: "https://i.pinimg.com/originals/4e/88/f5/4e88f5e2917d19a3aa66c06e0f93589e.png"
+                },
+                "Buddha's Hand": {
+                    desc: "More aromatic than edible, this unique citrus is prized for its fragrance and use in zesting and flavoring dishes.",
+                    img: "https://i.pinimg.com/originals/a6/cc/16/a6cc16409554571cf3b134e104aac47c.jpg"
+                }
+            }
+        };
+
+        let currentLanguage = 'ru';
+        let currentQuestion = 0;
+        let selectedOptions = [];
+
+        // Initialize the page with Russian language
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePrices();
+            translatePage();
+        });
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('current-language').textContent = lang.toUpperCase();
+            updatePrices();
+            translatePage();
+            
+            // Reset quiz if it was started
+            if (document.getElementById('quiz-questions').classList.contains('hidden') === false || 
+                document.getElementById('quiz-result').classList.contains('hidden') === false) {
+                resetQuiz();
+            }
+        }
+
+        function updatePrices() {
+            const exchangeRate = 90; // 1 USD = 90 RUB
+            const priceElements = document.querySelectorAll('.price');
+            
+            priceElements.forEach(element => {
+                const price = parseFloat(element.getAttribute('data-price'));
+                if (currentLanguage === 'ru') {
+                    const rubPrice = Math.round(price * exchangeRate);
+                    element.textContent = `${rubPrice} ₽`;
+                } else {
+                    element.textContent = `$${price.toFixed(2)}`;
+                }
+            });
+        }
+
+        function translatePage() {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                element.textContent = translations[currentLanguage][key] || key;
+            });
+        }
+
+        // Countdown timer for fruit of the week
+        let seconds = 60;
+        const countdown = setInterval(() => {
+            seconds--;
+            document.getElementById('countdown-minutes').textContent = 
+                `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
+            
+            if (seconds <= 0) {
+                clearInterval(countdown);
+            }
+        }, 1000);
+
+        function startQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-questions').classList.remove('hidden');
+            showQuestion(currentQuestion);
+        }
+
+        function showQuestion(index) {
+            const quizContainer = document.getElementById('quiz-questions');
+            const question = quizQuestions[currentLanguage][index];
+            
+            let html = `
+                <h3 class="text-xl font-bold mb-6">${question.question}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            `;
+            
+            question.options.forEach((option, i) => {
+                html += `
+                    <div class="quiz-option bg-[#FFF5E6] p-4 rounded-lg cursor-pointer text-center" onclick="selectOption(${i})">
+                        ${option.text}
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            if (index > 0) {
+                const backText = currentLanguage === 'ru' ? 'Назад' : 'Back';
+                html += `<button onclick="previousQuestion()" class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-6 py-2 rounded-full mr-4 hover:bg-[#4ECDC4] hover:text-white transition">${backText}</button>`;
+            }
+            
+            if (index < quizQuestions[currentLanguage].length - 1) {
+                const nextText = currentLanguage === 'ru' ? 'Далее' : 'Next';
+                html += `<button onclick="nextQuestion()" class="bg-[#FF6B6B] text-white px-6 py-2 rounded-full hover:bg-[#ff5252] transition">${nextText}</button>`;
+            } else {
+                const finishText = currentLanguage === 'ru' ? 'Завершить' : 'Finish';
+                html += `<button onclick="showResult()" class="bg-[#FF6B6B] text-white px-6 py-2 rounded-full hover:bg-[#ff5252] transition">${finishText}</button>`;
+            }
+            
+            quizContainer.innerHTML = html;
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+            selectedOptions[currentQuestion] = quizQuestions[currentLanguage][currentQuestion].options[index].fruit;
+        }
+
+        function nextQuestion() {
+            if (selectedOptions[currentQuestion] === undefined) {
+                alert(currentLanguage === 'ru' ? "Пожалуйста, выберите вариант перед продолжением" : "Please select an option before continuing");
+                return;
+            }
+            currentQuestion++;
+            showQuestion(currentQuestion);
+        }
+
+        function previousQuestion() {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+
+        function showResult() {
+            if (selectedOptions[currentQuestion] === undefined) {
+                alert(currentLanguage === 'ru' ? "Пожалуйста, выберите вариант перед продолжением" : "Please select an option before continuing");
+                return;
+            }
+            
+            // Simple recommendation - just pick the most frequent fruit in selections
+            const fruitCount = {};
+            selectedOptions.forEach(fruit => {
+                fruitCount[fruit] = (fruitCount[fruit] || 0) + 1;
+            });
+            
+            let recommendedFruit = currentLanguage === 'ru' ? "Драконий фрукт" : "Dragon Fruit"; // default
+            let maxCount = 0;
+            for (const fruit in fruitCount) {
+                if (fruitCount[fruit] > maxCount) {
+                    maxCount = fruitCount[fruit];
+                    recommendedFruit = fruit;
+                }
+            }
+            
+            document.getElementById('quiz-questions').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            
+            const resultContainer = document.getElementById('result-fruit');
+            resultContainer.innerHTML = `
+                <div class="bg-white p-6 rounded-xl shadow-md max-w-md mx-auto">
+                    <h4 class="text-2xl font-bold text-[#FF6B6B] mb-4">${recommendedFruit}</h4>
+                    <img src="${fruitInfo[currentLanguage][recommendedFruit].img}" alt="${recommendedFruit}" class="w-48 h-48 mx-auto mb-4 object-contain">
+                    <p class="text-gray-600 mb-6">${fruitInfo[currentLanguage][recommendedFruit].desc}</p>
+                    <button class="w-full bg-[#FF6B6B] text-white px-6 py-3 rounded-full hover:bg-[#ff5252] transition">
+                        ${currentLanguage === 'ru' ? 'Добавить в корзину' : 'Add to My Box'}
+                    </button>
+                </div>
+            `;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            selectedOptions = [];
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-questions').classList.add('hidden');
+            document.getElementById('quiz-intro').classList.remove('hidden');
+        }
+
+        // 3D hover effects for fruit cards
+        document.querySelectorAll('.fruit-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+            
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'none';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transition = 'all 0.5s ease';
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
+        });
+    </script>
+</body>
+</html>
