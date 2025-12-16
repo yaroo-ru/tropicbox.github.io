@@ -3,276 +3,1072 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TropicBox - Доставка экзотических фруктов</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <title>Исследование: Социальные сети vs Реальное общение</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
         :root {
-            --primary: #FF6B6B;
-            --accent: #4ECDC4;
-            --bg: #FFF5E6;
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg);
+            background-color: #fefefe;
+            color: var(--dark);
+            line-height: 1.6;
         }
         
-        .fruit-card {
-            transition: transform 0.5s ease;
-            transform-style: preserve-3d;
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
-        .fruit-card:hover {
-            transform: rotateY(15deg) rotateX(5deg) scale(1.05);
-        }
-        
-        .timer-circle {
-            stroke-dasharray: 251;
-            stroke-dashoffset: 251;
-            animation: countdown 60s linear forwards;
-        }
-        
-        @keyframes countdown {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        
-        .quiz-option {
-            transition: all 0.3s ease;
-        }
-        
-        .quiz-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        .selected {
-            border: 3px solid var(--accent);
-            transform: scale(1.05);
-        }
-        
-        .language-switcher {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .language-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
+        /* Header & Navigation */
+        header {
             background-color: white;
-            min-width: 100px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-            z-index: 1;
-            border-radius: 8px;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #eef1ff 100%);
+            text-align: center;
+            position: relative;
             overflow: hidden;
         }
         
-        .language-switcher:hover .language-dropdown {
-            display: block;
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
         }
         
-        .language-option {
-            padding: 8px 16px;
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .hypotheses-box {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary);
+        }
+        
+        .hypotheses-box h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .hypotheses-box ol {
+            margin-left: 20px;
+            color: var(--dark);
+        }
+        
+        .hypotheses-box li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 14px 32px;
+            border-radius: var(--radius);
             text-decoration: none;
-            display: block;
-            color: #333;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
         
-        .language-option:hover {
-            background-color: #f1f1f1;
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #e11570;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Paradox Section */
+        .paradox-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .paradox-chart {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+        }
+        
+        .chart-container {
+            height: 250px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 40px;
+            height: 200px;
+            width: 100%;
+        }
+        
+        .bar {
+            width: 60px;
+            background: linear-gradient(to top, var(--primary), var(--success));
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            padding-top: 10px;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 100%;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .pie-chart {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--accent) 0% 94%,
+                var(--light-gray) 94% 100%
+            );
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .pie-center {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+        
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+        
+        /* Test Section */
+        .test-container {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-question {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .test-question:last-child {
+            border-bottom: none;
+        }
+        
+        .question-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px 20px;
+            background-color: var(--light-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .option:hover {
+            background-color: #dde2ff;
+        }
+        
+        .option.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .test-result {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(76, 201, 240, 0.1);
+            border-radius: var(--radius);
+            margin-top: 30px;
+        }
+        
+        .test-result h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        /* Media Consumption */
+        .media-container {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .media-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .media-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .media-item:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow);
+        }
+        
+        .media-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-right: 20px;
+        }
+        
+        .media-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .media-percentage {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        .telegram { background-color: #0088cc; }
+        .tiktok { background-color: #000000; }
+        .vk { background-color: #4c75a3; }
+        .youtube { background-color: #ff0000; }
+        .other { background-color: var(--gray); }
+        
+        /* Quotes Section */
+        .quotes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .quote-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .quote-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            position: relative;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .quote-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gray);
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        /* Analysis Section */
+        .analysis-container, .methodology-container {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .analysis-category, .methodology-category {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .analysis-category:last-child, .methodology-category:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .analysis-title, .methodology-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .analysis-title i, .methodology-title i {
+            color: var(--accent);
+        }
+        
+        .analysis-stats, .methodology-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item, .method-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+        
+        .stat-value, .method-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label, .method-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .key-finding {
+            background-color: rgba(76, 201, 240, 0.1);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+            border-left: 4px solid var(--success);
+        }
+        
+        .key-finding h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Recommendations */
+        .recommendations-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .recommendation-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .rec-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+        }
+        
+        .recommendation-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .recommendation-card ul {
+            text-align: left;
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        .recommendation-card li {
+            margin-bottom: 8px;
+        }
+        
+        /* Perspectives */
+        .perspectives-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .perspective-card {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+        
+        .perspective-card h4 {
+            margin-bottom: 10px;
+        }
+        
+        /* Conclusions */
+        .conclusions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .conclusion-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .conclusion-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .conclusion-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .bridge .conclusion-icon {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+        
+        .foundation .conclusion-icon {
+            color: var(--accent);
+            background-color: rgba(247, 37, 133, 0.1);
+        }
+        
+        .conclusion-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .final-thesis {
+            text-align: center;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 800px;
+            margin: 50px auto 0;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--success);
+        }
+        
+        .final-thesis h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        /* About Research */
+        .about-container {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .author-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .author-details h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .author-details p {
+            color: var(--gray);
+        }
+        
+        .about-list {
+            list-style: none;
+        }
+        
+        .about-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+        }
+        
+        .about-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .about-label {
+            font-weight: 600;
+            min-width: 180px;
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-about {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .footer-links {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-links h3, .footer-about h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        /* Print Button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .print-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* QR Code */
+        .qr-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-weight: bold;
+            color: var(--gray);
+        }
+        
+        /* Educational Links */
+        .educational-links {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .educational-links h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                width: 100%;
+                display: none;
+                margin-top: 20px;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                right: 20px;
+                top: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .paradox-container {
+                flex-direction: column;
+            }
+            
+            .chart-container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .bar-chart {
+                height: 180px;
+            }
+            
+            .conclusion-card, .quote-card, .stat-item, .method-item,
+            .recommendation-card, .perspective-card {
+                min-width: 100%;
+            }
+            
+            .about-list li {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .analysis-title, .methodology-title {
+                font-size: 1.2rem;
+            }
+            
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .print-btn {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media print {
+            header, footer, .mobile-menu-btn, #submitTest, 
+            .test-result, .option, .print-btn, .qr-container {
+                display: none !important;
+            }
+            
+            section {
+                padding: 20px 0 !important;
+                page-break-inside: avoid;
+            }
+            
+            .container {
+                max-width: 100% !important;
+            }
+            
+            .hero {
+                padding: 30px 0 !important;
+            }
+            
+            body {
+                font-size: 12pt;
+                line-height: 1.5;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm py-4 sticky top-0 z-50">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <span class="text-3xl font-bold text-[#FF6B6B]">Tropic</span>
-                <span class="text-3xl font-bold text-[#4ECDC4]">Box</span>
-            </div>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.home">Главная</a>
-                <a href="#fruits" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.fruits">Наши фрукты</a>
-                <a href="#weekly" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.weekly">Фрукт недели</a>
-                <a href="#quiz" class="text-gray-700 hover:text-[#FF6B6B] transition" data-i18n="nav.quiz">Найди свой фрукт</a>
-                
-                <div class="language-switcher ml-4">
-                    <button class="flex items-center space-x-1">
-                        <span id="current-language">RU</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="language-dropdown">
-                        <a href="#" class="language-option" onclick="changeLanguage('ru')">Русский (RU)</a>
-                        <a href="#" class="language-option" onclick="changeLanguage('en')">English (EN)</a>
-                    </div>
-                </div>
-            </div>
-            <button class="bg-[#FF6B6B] text-white px-6 py-2 rounded-full hover:bg-[#ff5252] transition md:hidden">
-                Меню
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-network-wired"></i>
+                Исследование
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
             </button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#paradox">Парадокс</a></li>
+                    <li><a href="#analysis">Анализ</a></li>
+                    <li><a href="#methodology">Методология</a></li>
+                    <li><a href="#test">Тест</a></li>
+                    <li><a href="#media">Платформы</a></li>
+                    <li><a href="#recommendations">Рекомендации</a></li>
+                    <li><a href="#conclusions">Выводы</a></li>
+                    <li><a href="#about">О проекте</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <!-- Hero Section -->
-    <section id="home" class="py-16 md:py-24">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-10 md:mb-0">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                    <span class="text-[#FF6B6B]" data-i18n="hero.exotic">Экзотические</span> 
-                    <span class="text-[#4ECDC4]" data-i18n="hero.fruits">фрукты</span> 
-                    <br><span data-i18n="hero.delivery">с доставкой к вам домой</span>
-                </h1>
-                <p class="text-lg text-gray-600 mb-8" data-i18n="hero.description">
-                    Откройте для себя самые редкие и вкусные фрукты со всего мира. 
-                    Свежие, органические и доставленные прямо к вашей двери.
-                </p>
-                <div class="flex space-x-4">
-                    <button class="bg-[#FF6B6B] text-white px-8 py-3 rounded-full hover:bg-[#ff5252] transition" data-i18n="hero.order">
-                        <a href="t.me/yarkalash">Заказать сейчас</a>
-                    </button>
-                    <button class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-8 py-3 rounded-full hover:bg-[#4ECDC4] hover:text-white transition" data-i18n="hero.learn">
-                        Узнать больше
-                    </button>
-                </div>
+    <section class="hero">
+        <div class="container">
+            <h1>ПОЧЕМУ 94% ЦИФРОВОГО ПОКОЛЕНИЯ ГОВОРЯТ «НЕТ» ЗАМЕНЕ ЖИВОГО ОБЩЕНИЯ?</h1>
+            <p class="hero-subtitle">Интерактивное исследование среди старшеклассников. Мы провели опрос среди 18 человек, которые проводят в соцсетях в среднем 3-4 часа в день, но при этом уверены: живой диалог незаменим.</p>
+            
+            <div class="hypotheses-box">
+                <h3><i class="fas fa-hypothesis"></i> Гипотезы исследования:</h3>
+                <ol>
+                    <li><strong>Основная гипотеза:</strong> Молодёжь проводит значительное время в соцсетях, но не считает их полноценной заменой реальному общению</li>
+                    <li><strong>Конкурентная гипотеза:</strong> Активное использование соцсетей ухудшает навыки реального общения</li>
+                    <li><strong>Дополнительная гипотеза:</strong> Разные социальные платформы выполняют разные коммуникативные функции</li>
+                </ol>
             </div>
-            <div class="md:w-1/2 relative">
-                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_1a8dx7tj.json" background="transparent" speed="1" style="width: 100%; height: 400px;" loop autoplay></lottie-player>
-            </div>
+            
+            <a href="#paradox" class="btn">Изучить результаты</a>
         </div>
     </section>
 
-    <!-- Featured Fruits -->
-    <section id="fruits" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4" data-i18n="fruits.title">Наша <span class="text-[#FF6B6B]">экзотическая</span> коллекция</h2>
-            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-i18n="fruits.subtitle">
-                Мы предлагаем только лучшие экзотические фрукты с экологичных ферм по всему миру.
-            </p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Fruit 1 -->
-                <div class="fruit-card bg-white rounded-xl shadow-lg overflow-hidden p-6 text-center">
-                    <img src="dragonfruit.png" alt="Dragon Fruit" class="w-64 h-64 mx-auto object-contain transition-transform duration-500 hover:rotate-6">
-                    <h3 class="text-xl font-bold mt-4" data-i18n="fruits.dragonfruit.name">Драконий фрукт</h3>
-                    <p class="text-gray-600 mt-2" data-i18n="fruits.dragonfruit.desc">Сладкий, освежающий вкус с ярко-розовой мякотью</p>
-                    <div class="mt-6 flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4ECDC4] price" data-price="4.99">449 ₽</span>
-                        <button class="bg-[#FF6B6B] text-white px-4 py-2 rounded-full text-sm hover:bg-[#ff5252] transition" data-i18n="fruits.add">
-                            Добавить в корзину
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Fruit 2 -->
-                <div class="fruit-card bg-white rounded-xl shadow-lg overflow-hidden p-6 text-center">
-                    <img src="mangosteen.png" alt="Mangosteen" class="w-64 h-64 mx-auto object-contain transition-transform duration-500 hover:rotate-6">
-                    <h3 class="text-xl font-bold mt-4" data-i18n="fruits.mangosteen.name">Мангустин</h3>
-                    <p class="text-gray-600 mt-2" data-i18n="fruits.mangosteen.desc">"Королева фруктов" со сладко-терпким вкусом</p>
-                    <div class="mt-6 flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4ECDC4] price" data-price="6.99">629 ₽</span>
-                        <button class="bg-[#FF6B6B] text-white px-4 py-2 rounded-full text-sm hover:bg-[#ff5252] transition" data-i18n="fruits.add">
-                            Добавить в корзину
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Fruit 3 -->
-                <div class="fruit-card bg-white rounded-xl shadow-lg overflow-hidden p-6 text-center">
-                    <img src="rambotan.png" alt="Rambutan" class="w-64 h-64 mx-auto object-contain transition-transform duration-500 hover:rotate-6">
-                    <h3 class="text-xl font-bold mt-4" data-i18n="fruits.rambutan.name">Рамбутан</h3>
-                    <p class="text-gray-600 mt-2" data-i18n="fruits.rambutan.desc">Сочный фрукт, похожий на личи, с волосистой кожурой</p>
-                    <div class="mt-6 flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4ECDC4] price" data-price="5.49">494 ₽</span>
-                        <button class="bg-[#FF6B6B] text-white px-4 py-2 rounded-full text-sm hover:bg-[#ff5252] transition" data-i18n="fruits.add">
-                            Добавить в корзину
-                        </button>
-                    </div>
-                </div>
+    <!-- Paradox Section -->
+    <section id="paradox">
+        <div class="container">
+            <div class="section-title">
+                <h2>Парадокс в цифрах</h2>
+                <p>Сопоставьте два ключевых факта. Слева — сколько времени респонденты проводят онлайн. Справа — что они думают о полной замене живого общения виртуальным. Этот контраст — суть нашего открытия.</p>
             </div>
-            
-            <div class="text-center mt-12">
-                <button class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-8 py-3 rounded-full hover:bg-[#4ECDC4] hover:text-white transition" data-i18n="fruits.view">
-                    Посмотреть все фрукты
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Fruit of the Week -->
-    <section id="weekly" class="py-16 bg-[#FFF5E6]">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4" data-i18n="weekly.title">Фрукт <span class="text-[#FF6B6B]">недели</span></h2>
-            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-i18n="weekly.subtitle">
-                Каждую неделю мы предлагаем редкий фрукт по специальной цене. Не упустите - эти предложения быстро заканчиваются!
-            </p>
-            
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden max-w-4xl mx-auto">
-                <div class="flex flex-col md:flex-row">
-                    <div class="md:w-1/2 p-8 md:p-12">
-                        <div class="relative">
-                            <img src="durian.webp" alt="Durian" class="w-full h-64 object-contain pulse">
-                            <div class="absolute -top-4 -right-4 bg-[#FF6B6B] text-white px-3 py-1 rounded-full text-sm font-bold" data-i18n="weekly.limited">
-                                ЛИМИТИРОВАННО
+            <div class="paradox-container">
+                <div class="paradox-chart">
+                    <h3 class="chart-title">Интенсивность использования соцсетей</h3>
+                    <div class="chart-container">
+                        <div class="bar-chart">
+                            <div class="bar" style="height: 100%;">
+                                50%
+                                <div class="bar-label">Более 4 часов</div>
+                            </div>
+                            <div class="bar" style="height: 88.8%;">
+                                44.4%
+                                <div class="bar-label">3-4 часа</div>
+                            </div>
+                            <div class="bar" style="height: 11.2%;">
+                                5.6%
+                                <div class="bar-label">1-2 часа</div>
                             </div>
                         </div>
-                        <h3 class="text-2xl font-bold mt-6" data-i18n="weekly.durian.name">Дуриан</h3>
-                        <p class="text-gray-600 mt-2" data-i18n="weekly.durian.desc">
-                            "Король фруктов" - любите его или ненавидите, этот деликатес из Юго-Восточной Азии незабываем благодаря своей кремовой текстуре и сильному аромату.
-                        </p>
-                        <div class="mt-6 flex items-center">
-                            <span class="text-3xl font-bold text-[#4ECDC4] price" data-price="9.99">899 ₽</span>
-                            <span class="ml-4 text-gray-500 line-through price" data-price="14.99">1,349 ₽</span>
-                            <span class="ml-4 bg-[#FF6B6B] text-white px-2 py-1 rounded text-xs" data-i18n="weekly.discount">33% СКИДКА</span>
-                        </div>
-                        <button class="mt-6 w-full bg-[#FF6B6B] text-white px-6 py-3 rounded-full hover:bg-[#ff5252] transition" data-i18n="weekly.add">
-                            Добавить в корзину - ограниченное предложение!
-                        </button>
                     </div>
-                    <div class="md:w-1/2 bg-[#4ECDC4] p-8 md:p-12 flex flex-col justify-center items-center text-white">
-                        <h3 class="text-xl font-bold mb-6" data-i18n="weekly.hurry">Торопитесь! Предложение заканчивается через:</h3>
-                        <div class="relative w-40 h-40 mb-6">
-                            <svg class="w-full h-full" viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
-                                <circle id="timer-circle" cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" transform="rotate(-90 50 50)"/>
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="text-center">
-                                    <div id="countdown-minutes" class="text-3xl font-bold">01</div>
-                                    <div class="text-sm" data-i18n="weekly.minutes">секунд</div>
-                                </div>
-                            </div>
+                </div>
+                <div class="paradox-chart">
+                    <h3 class="chart-title">Мнение о замене живого общения</h3>
+                    <div class="pie-chart">
+                        <div class="pie-center">94%</div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: var(--accent);"></div>
+                            <span>НЕТ, не заменит</span>
                         </div>
-                        <div class="text-center">
-                            <p class="mb-4" data-i18n="weekly.left">Осталось <span class="font-bold">12</span> коробок по этой цене!</p>
-                            <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
-                                <div class="bg-white h-2 rounded-full" style="width: 30%"></div>
-                            </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: var(--light-gray);"></div>
+                            <span>Возможно</span>
                         </div>
                     </div>
                 </div>
@@ -280,720 +1076,690 @@
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12" data-i18n="how.title">Как работает <span class="text-[#FF6B6B]">TropicBox</span></h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center p-6">
-                    <div class="bg-[#FF6B6B] bg-opacity-10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl text-[#FF6B6B]">1</span>
+    <!-- Analysis Section -->
+    <section id="analysis" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Анализ результатов опроса</h2>
+                <p>Детальный разбор данных исследования с ключевыми выводами для проекта</p>
+            </div>
+            <div class="analysis-container">
+                
+                <div class="analysis-category">
+                    <h3 class="analysis-title"><i class="fas fa-users"></i> Состав выборки</h3>
+                    <div class="analysis-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Всего респондентов</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">66.7%</div>
+                            <div class="stat-label">Учащиеся 10-11 классов</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">33.3%</div>
+                            <div class="stat-label">Окончившие школу</div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-3" data-i18n="how.step1.title">Выберите фрукты</h3>
-                    <p class="text-gray-600" data-i18n="how.step1.desc">
-                        Выберите из нашей ротации экзотических фруктов или позвольте нам удивить вас нашими тематическими коробками.
-                    </p>
+                    <div class="key-finding">
+                        <h4><i class="fas fa-lightbulb"></i> Ключевой вывод:</h4>
+                        <p>Исследование охватило именно целевую аудиторию — представителей «цифрового поколения», активно пользующихся соцсетями, что обеспечивает релевантность полученных данных.</p>
+                    </div>
                 </div>
                 
-                <div class="text-center p-6">
-                    <div class="bg-[#4ECDC4] bg-opacity-10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl text-[#4ECDC4]">2</span>
+                <div class="analysis-category">
+                    <h3 class="analysis-title"><i class="fas fa-clock"></i> Временные паттерны использования</h3>
+                    <div class="analysis-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">94.4%</div>
+                            <div class="stat-label">Проводят 3+ часа в день</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">50%</div>
+                            <div class="stat-label">Более 4 часов в день</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">0%</div>
+                            <div class="stat-label">Менее 1 часа в день</div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-3" data-i18n="how.step2.title">Быстрая доставка</h3>
-                    <p class="text-gray-600" data-i18n="how.step2.desc">
-                        Мы собираем фрукты по заказу и отправляем немедленно, чтобы обеспечить максимальную свежесть при получении.
-                    </p>
+                    <div class="key-finding">
+                        <h4><i class="fas fa-lightbulb"></i> Ключевой вывод:</h4>
+                        <p>Абсолютное большинство респондентов (94.4%) проводят в соцсетях значительную часть дня (3+ часа), что свидетельствует о глубокой интеграции цифровых платформ в повседневную жизнь молодёжи.</p>
+                    </div>
                 </div>
                 
-                <div class="text-center p-6">
-                    <div class="bg-[#FF6B6B] bg-opacity-10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl text-[#FF6B6B]">3</span>
+                <div class="analysis-category">
+                    <h3 class="analysis-title"><i class="fas fa-comments"></i> Мотивация использования соцсетей</h3>
+                    <div class="analysis-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">42.9%</div>
+                            <div class="stat-label">Общение с друзьями</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">34.3%</div>
+                            <div class="stat-label">Отдых и развлечение</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">22.8%</div>
+                            <div class="stat-label">Информация и самообразование</div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-3" data-i18n="how.step3.title">Наслаждайтесь</h3>
-                    <p class="text-gray-600" data-i18n="how.step3.desc">
-                        Получите советы по приготовлению и интересные факты о каждом фрукте, чтобы улучшить ваш вкусовой опыт.
+                    <div class="key-finding">
+                        <h4><i class="fas fa-lightbulb"></i> Ключевой вывод:</h4>
+                        <p>Социальные сети выполняют для молодёжи преимущественно коммуникативную и рекреационную функции. Общение остаётся главной причиной использования, что опровергает стереотип о сугубо развлекательном характере этих платформ.</p>
+                    </div>
+                </div>
+                
+                <div class="key-finding" style="background-color: rgba(247, 37, 133, 0.1); border-left: 4px solid var(--accent);">
+                    <h4><i class="fas fa-chart-line"></i> Общий вывод для исследовательской работы:</h4>
+                    <p>Результаты опроса демонстрируют сложную, неоднозначную картину: с одной стороны, молодёжь проводит в соцсетях значительную часть времени (94.4% — 3+ часа в день), признаёт их удобство для общения (42.9% главная ассоциация) и ценит такие преимущества, как возможность общаться в любое время (41%). С другой стороны, абсолютное большинство (94%) уверено, что виртуальное общение никогда не заменит живое, не ощущает негативного влияния на реальные коммуникативные навыки (66.7%) и в основном не испытывает эмоционального дискомфорта от использования соцсетей (88.9%). Это указывает на формирование гибридной модели коммуникации, где цифровое и реальное общение не конкурируют, а сосуществуют, выполняя разные, но взаимодополняющие функции в жизни современного человека.</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="methodology">
+        <div class="container">
+            <div class="section-title">
+                <h2>Методология исследования</h2>
+                <p>Научный подход к сбору и анализу данных</p>
+            </div>
+            <div class="methodology-container">
+                <div class="methodology-category">
+                    <h3 class="methodology-title"><i class="fas fa-clipboard-check"></i> Дизайн исследования</h3>
+                    <div class="methodology-stats">
+                        <div class="method-item">
+                            <div class="method-value">Качественно-количественный</div>
+                            <div class="method-label">Тип исследования</div>
+                        </div>
+                        <div class="method-item">
+                            <div class="method-value">Перекрёстный</div>
+                            <div class="method-label">Срез (cross-sectional)</div>
+                        </div>
+                        <div class="method-item">
+                            <div class="method-value">Онлайн-анкетирование</div>
+                            <div class="method-label">Метод сбора данных</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="methodology-category">
+                    <h3 class="methodology-title"><i class="fas fa-tools"></i> Инструментарий</h3>
+                    <p><strong>Анкета:</strong> Состояла из 8 вопросов, включая:</p>
+                    <ul style="margin: 15px 0 15px 20px; color: var(--dark);">
+                        <li>4 вопроса с однократным выбором</li>
+                        <li>2 вопроса с множественным выбором</li>
+                        <li>2 открытых вопроса для качественного анализа</li>
+                        <li>Шкала Лайкерта для оценки эмоционального состояния</li>
+                    </ul>
+                    <p><strong>Платформа:</strong> Google Forms</p>
+                    <p><strong>Время заполнения:</strong> 5-7 минут</p>
+                </div>
+                
+                <div class="methodology-category">
+                    <h3 class="methodology-title"><i class="fas fa-chart-bar"></i> Методы анализа</h3>
+                    <div class="methodology-stats">
+                        <div class="method-item">
+                            <div class="method-value">Дескриптивная статистика</div>
+                            <div class="method-label">Проценты, средние значения</div>
+                        </div>
+                        <div class="method-item">
+                            <div class="method-value">Контент-анализ</div>
+                            <div class="method-label">Анализ открытых ответов</div>
+                        </div>
+                        <div class="method-item">
+                            <div class="method-value">Сравнительный анализ</div>
+                            <div class="method-label">По группам респондентов</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="key-finding" style="background-color: rgba(67, 97, 238, 0.1);">
+                    <h4><i class="fas fa-shield-alt"></i> Ограничения исследования и этические принципы</h4>
+                    <p><strong>Ограничения:</strong> Выборка нерепрезентативна для всей молодёжи России (только 18 человек, одна географическая зона).</p>
+                    <p><strong>Этические принципы:</strong> 
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Полная анонимность респондентов</li>
+                        <li>Добровольность участия</li>
+                        <li>Информированное согласие</li>
+                        <li>Конфиденциальность данных</li>
+                    </ul>
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Fruit Quiz -->
-    <section id="quiz" class="py-16 bg-[#FFF5E6]">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4" data-i18n="quiz.title">Какой <span class="text-[#FF6B6B]">экзотический фрукт</span> подходит вам?</h2>
-            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-i18n="quiz.subtitle">
-                Пройдите наш быстрый тест, и мы порекомендуем идеальный экзотический фрукт для ваших вкусовых предпочтений.
-            </p>
-            
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden max-w-2xl mx-auto p-8">
-                <div id="quiz-container">
-                    <div id="quiz-intro" class="text-center">
-                        <h3 class="text-2xl font-bold mb-4" data-i18n="quiz.intro.title">Найдите свой идеальный фрукт</h3>
-                        <p class="text-gray-600 mb-8" data-i18n="quiz.intro.desc">
-                            Ответьте всего на 3 простых вопроса, и мы порекомендуем экзотический фрукт, который вам понравится!
-                        </p>
-                        <button onclick="startQuiz()" class="bg-[#FF6B6B] text-white px-8 py-3 rounded-full hover:bg-[#ff5252] transition" data-i18n="quiz.start">
-                            Начать тест
-                        </button>
+    <!-- Test Section -->
+    <section id="test" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>А вы — часть тренда? Пройдите мини-опрос</h2>
+                <p>Узнайте, насколько ваше поведение соответствует выявленным в исследовании тенденциям</p>
+            </div>
+            <div class="test-container">
+                <div class="test-question">
+                    <h3 class="question-title">1. Сколько времени в день вы в среднем проводите в соцсетях и мессенджерах?</h3>
+                    <div class="options">
+                        <div class="option" data-question="1" data-value="1">Менее 1 часа</div>
+                        <div class="option" data-question="1" data-value="2">1-2 часа</div>
+                        <div class="option" data-question="1" data-value="3">3-4 часа</div>
+                        <div class="option" data-question="1" data-value="4">Более 4 часов</div>
                     </div>
-                    
-                    <div id="quiz-questions" class="hidden">
-                        <!-- Questions will be inserted here by JavaScript -->
+                </div>
+                <div class="test-question">
+                    <h3 class="question-title">2. С чем у вас в первую очередь ассоциируется время в соцсетях? (можно выбрать два)</h3>
+                    <div class="options">
+                        <div class="option" data-question="2" data-value="1">Общение с друзьями и близкими</div>
+                        <div class="option" data-question="2" data-value="2">Отдых и развлечение</div>
+                        <div class="option" data-question="2" data-value="3">Источник информации</div>
+                        <div class="option" data-question="2" data-value="4">Самообразование</div>
                     </div>
-                    
-                    <div id="quiz-result" class="hidden text-center">
-                        <h3 class="text-2xl font-bold mb-4" data-i18n="quiz.result.title">Ваш идеальный фрукт...</h3>
-                        <div id="result-fruit" class="mb-6">
-                            <!-- Result will be inserted here by JavaScript -->
+                </div>
+                <div class="test-question">
+                    <h3 class="question-title">3. Как вы думаете, сможет ли виртуальное общение когда-нибудь полностью заменить живое?</h3>
+                    <div class="options">
+                        <div class="option" data-question="3" data-value="1">Да, это неизбежно</div>
+                        <div class="option" data-question="3" data-value="2">Нет, никогда</div>
+                        <div class="option" data-question="3" data-value="3">Затрудняюсь ответить</div>
+                    </div>
+                </div>
+                <button class="btn btn-accent" id="submitTest">Узнать результат</button>
+                <div class="test-result" id="testResult">
+                    <h3>Спасибо за участие!</h3>
+                    <p>Ваши ответы помогают дополнить картину. Как и большинство участников нашего опроса, вы, скорее всего, активно пользуетесь цифровыми инструментами, но цените неповторимость личной встречи.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Consumption Section -->
+    <section id="media">
+        <div class="container">
+            <div class="section-title">
+                <h2>Где происходит это цифровое общение?</h2>
+                <p>Вот рейтинг платформ, которыми пользуются наши респонденты наиболее часто. Лидеры — мессенджеры и короткие видео.</p>
+            </div>
+            <div class="media-container">
+                <div class="media-list">
+                    <div class="media-item">
+                        <div class="media-icon telegram">
+                            <i class="fab fa-telegram"></i>
                         </div>
-                        <button onclick="resetQuiz()" class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-8 py-3 rounded-full hover:bg-[#4ECDC4] hover:text-white transition" data-i18n="quiz.again">
-                            Пройти тест снова
-                        </button>
+                        <div class="media-name">Telegram</div>
+                        <div class="media-percentage">48.6%</div>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-icon tiktok">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <div class="media-name">TikTok</div>
+                        <div class="media-percentage">32.4%</div>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-icon vk">
+                            <i class="fab fa-vk"></i>
+                        </div>
+                        <div class="media-name">ВКонтакте</div>
+                        <div class="media-percentage">8.1%</div>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="media-name">YouTube</div>
+                        <div class="media-percentage">8.1%</div>
+                    </div>
+                    <div class="media-item">
+                        <div class="media-icon other">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                        <div class="media-name">Другое</div>
+                        <div class="media-percentage">2.7%</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12" data-i18n="testimonials.title">Что говорят наши <span class="text-[#FF6B6B]">клиенты</span></h2>
+    <!-- Recommendations Section -->
+    <section id="recommendations" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Практические рекомендации</h2>
+                <p>Как использовать результаты исследования в образовательном процессе</p>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-[#FFF5E6] p-6 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-[#FF6B6B] rounded-full flex items-center justify-center text-white font-bold text-xl">С</div>
-                        <div class="ml-4">
-                            <h4 class="font-bold">Светлана Ж.</h4>
-                            <div class="flex text-yellow-400">
-                                ★ ★ ★ ★ ★
-                            </div>
-                        </div>
+            <div class="recommendations-container">
+                <div class="recommendation-card" style="border-top: 5px solid var(--success);">
+                    <div class="rec-icon" style="background-color: rgba(76, 201, 240, 0.2); color: var(--success);">
+                        <i class="fas fa-school"></i>
                     </div>
-                    <p class="text-gray-600" data-i18n="testimonials.review1">
-                        "Драконий фрукт был самым свежим, который я когда-либо пробовала! Розовая мякоть была такой яркой и сладкой. Обязательно закажу снова."
-                    </p>
+                    <h3>Для педагогов</h3>
+                    <ul>
+                        <li>Интегрировать обсуждение цифровой гигиены в уроки ОБЖ и классные часы</li>
+                        <li>Использовать мессенджеры для учебного общения, но не заменять ими личные консультации</li>
+                        <li>Проводить тренинги по "живому" общению для профилактики социальных фобий</li>
+                    </ul>
                 </div>
                 
-                <div class="bg-[#FFF5E6] p-6 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-[#4ECDC4] rounded-full flex items-center justify-center text-white font-bold text-xl">М</div>
-                        <div class="ml-4">
-                            <h4 class="font-bold">Михаил Т.</h4>
-                            <div class="flex text-yellow-400">
-                                ★ ★ ★ ★ ★
-                            </div>
-                        </div>
+                <div class="recommendation-card" style="border-top: 5px solid var(--accent);">
+                    <div class="rec-icon" style="background-color: rgba(247, 37, 133, 0.2); color: var(--accent);">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <p class="text-gray-600" data-i18n="testimonials.review2">
-                        "Наконец попробовал дуриан благодаря TropicBox! Руководство по приготовлению было очень полезным. Такой уникальный опыт."
-                    </p>
+                    <h3>Для подростков</h3>
+                    <ul>
+                        <li>Соблюдать цифровой баланс: 30 минут онлайн = 30 минут офлайн-общения</li>
+                        <li>Использовать соцсети для поддержания связей, а не для их создания</li>
+                        <li>Практиковать "цифровой детокс" один день в неделю</li>
+                    </ul>
                 </div>
                 
-                <div class="bg-[#FFF5E6] p-6 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-[#FF6B6B] rounded-full flex items-center justify-center text-white font-bold text-xl">А</div>
-                        <div class="ml-4">
-                            <h4 class="font-bold">Анна Л.</h4>
-                            <div class="flex text-yellow-400">
-                                ★ ★ ★ ★ ★
-                            </div>
-                        </div>
+                <div class="recommendation-card" style="border-top: 5px solid var(--primary);">
+                    <div class="rec-icon" style="background-color: rgba(67, 97, 238, 0.2); color: var(--primary);">
+                        <i class="fas fa-home"></i>
                     </div>
-                    <p class="text-gray-600" data-i18n="testimonials.review3">
-                        "Предложения "фрукт недели" просто потрясающие. Я открыла для себя так много новых любимых фруктов, которые никогда бы не попробовала иначе."
-                    </p>
+                    <h3>Для родителей</h3>
+                    <ul>
+                        <li>Обсуждать с детьми не количество, а качество онлайн-общения</li>
+                        <li>Создавать "бестелефонные" зоны и время в доме</li>
+                        <li>Подавать пример здорового цифрового поведения</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="py-16 bg-[#4ECDC4] text-white">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-6" data-i18n="cta.title">Готовы исследовать мир экзотических фруктов?</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto" data-i18n="cta.subtitle">
-                Присоединяйтесь к тысячам любителей фруктов, которые получают свежие, редкие фрукты еженедельно.
-            </p>
-            <button class="bg-[#FF6B6B] text-white px-8 py-3 rounded-full hover:bg-[#ff5252] transition text-lg" data-i18n="cta.button">
-                Начните своё фруктовое путешествие
-            </button>
+    <!-- Quotes Section -->
+    <section id="quotes">
+        <div class="container">
+            <div class="section-title">
+                <h2>Голос поколения</h2>
+                <p>Мы спросили: «Сможет ли виртуальное общение полностью заменить живое?». Вот самые яркие ответы.</p>
+            </div>
+            <div class="quotes-container">
+                <div class="quote-card">
+                    <p class="quote-text">«Не заменит. Не тот вайб».</p>
+                    <div class="quote-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Респондент 1</div>
+                            <div class="author-age">17 лет</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">«Нет, потому что в живом общении можно по-настоящему выразить эмоции».</p>
+                    <div class="quote-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Респондент 2</div>
+                            <div class="author-age">16 лет</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">«Обществу необходимо функционировать друг с другом лично с целью социализации».</p>
+                    <div class="quote-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Респондент 3</div>
+                            <div class="author-age">18 лет</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">«Легче начать разговор онлайн, но узнать человека можно только вживую».</p>
+                    <div class="quote-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Респондент 4</div>
+                            <div class="author-age">17 лет</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusions Section -->
+    <section id="conclusions" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Опираясь на цифры: итог исследования</h2>
+                <p>Виртуальное общение — мощный инструмент, но не альтернатива реальности.</p>
+            </div>
+            <div class="conclusions-container">
+                <div class="conclusion-card bridge">
+                    <div class="conclusion-icon">
+                        <i class="fas fa-bridge"></i>
+                    </div>
+                    <h3>Соцсети — это МОСТ</h3>
+                    <p>Их сила — в удобстве и контроле. Асинхронность (общение в любое время), редактируемость сообщений, лёгкость начала контакта. Они соединяют, но не заменяют.</p>
+                </div>
+                <div class="conclusion-card foundation">
+                    <div class="conclusion-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h3>Живой диалог — это ОСНОВА</h3>
+                    <p>Его сила — в подлинности. Непосредственные эмоции, энергия контакта, невербальные сигналы, фундаментальная роль в социализации. То, что нельзя скачать или отправить файлом.</p>
+                </div>
+            </div>
+            
+            <div class="final-thesis">
+                <h3>Итоговый тезис исследования</h3>
+                <p>Интенсивное использование не равно замещению. Будущее — в гибридной коммуникации, где цифровое дополняет реальное, но не вытесняет его.</p>
+                
+                <div class="perspectives-container">
+                    <div class="perspective-card" style="background-color: rgba(76, 201, 240, 0.1);">
+                        <h4 style="color: var(--success);">Лонгитюдное исследование</h4>
+                        <p>Отслеживание изменений в цифровых привычках тех же респондентов через 1-2 года</p>
+                    </div>
+                    <div class="perspective-card" style="background-color: rgba(247, 37, 133, 0.1);">
+                        <h4 style="color: var(--accent);">Сравнительный анализ</h4>
+                        <p>Сравнение поведения подростков из разных регионов и типов населённых пунктов</p>
+                    </div>
+                    <div class="perspective-card" style="background-color: rgba(67, 97, 238, 0.1);">
+                        <h4 style="color: var(--primary);">Глубинное интервью</h4>
+                        <p>Качественное исследование мотивов и эмоций через личные интервью</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Research Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>О проекте и авторе</h2>
+                <p>Информация об исследовании и его создателе</p>
+            </div>
+            <div class="about-container">
+                <div class="author-info">
+                    <div class="author-avatar-large">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="author-details">
+                        <h3>Перелыгина Ульяна</h3>
+                        <p>Ученица 10 «А» класса</p>
+                        <p>Автор исследовательского проекта «Социальные сети: почему люди предпочитают реальному общению виртуальный мир?»</p>
+                    </div>
+                </div>
+                
+                <div class="educational-links">
+                    <h4><i class="fas fa-graduation-cap"></i> Связь с учебными предметами:</h4>
+                    <p><strong>Обществознание:</strong> Социализация личности в цифровую эпоху</p>
+                    <p><strong>Информатика:</strong> Цифровые технологии и их социальное влияние</p>
+                    <p><strong>Психология:</strong> Коммуникативные процессы и эмоциональное развитие</p>
+                </div>
+                
+                <h3 style="color: var(--primary); margin: 30px 0 15px;">Теоретическая база исследования</h3>
+                <div style="background: rgba(67, 97, 238, 0.05); padding: 20px; border-radius: var(--radius); margin-bottom: 20px;">
+                    <ol style="margin-left: 20px; color: var(--dark);">
+                        <li>Войскунский А.Е. (2010) «Психология и интернет». М.: Акрополь</li>
+                        <li>Солдатова Г.У., Шляпников В.Н. (2014) «Поколение Z: цифровая социализация»</li>
+                        <li>Кастельс М. (2000) «Информационная эпоха: экономика, общество и культура»</li>
+                        <li>Turkle, S. (2011) «Alone Together: Why We Expect More from Technology and Less from Each Other»</li>
+                        <li>Данные ФОМ и ВЦИОМ о цифровых привычках россиян (2023)</li>
+                    </ol>
+                    <p style="margin-top: 15px; font-style: italic; color: var(--gray);">
+                        *Использованы только открытые источники и данные собственного исследования
+                    </p>
+                </div>
+                
+                <h3 style="color: var(--primary); margin: 30px 0 15px;">Методология исследования</h3>
+                <ul class="about-list">
+                    <li>
+                        <span class="about-label">Тип исследования:</span>
+                        <span>Анонимный онлайн-опрос</span>
+                    </li>
+                    <li>
+                        <span class="about-label">Период проведения:</span>
+                        <span>Апрель 2024</span>
+                    </li>
+                    <li>
+                        <span class="about-label">Выборка:</span>
+                        <span>18 респондентов</span>
+                    </li>
+                    <li>
+                        <span class="about-label">Возраст респондентов:</span>
+                        <span>Учащиеся 10-11 классов (66.7%) и недавние выпускники школ (33.3%)</span>
+                    </li>
+                    <li>
+                        <span class="about-label">Цель исследования:</span>
+                        <span>Изучение роли социальных сетей и отношения к живому общению в молодёжной среде</span>
+                    </li>
+                </ul>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(76, 201, 240, 0.1); border-radius: var(--radius);">
+                    <h4 style="color: var(--success); margin-bottom: 15px;">
+                        <i class="fas fa-reflect"></i> Рефлексия автора
+                    </h4>
+                    <p>В процессе работы над исследованием я научилась:</p>
+                    <ul style="margin: 10px 0 10px 20px;">
+                        <li>Разрабатывать научный инструментарий (анкету)</li>
+                        <li>Анализировать количественные и качественные данные</li>
+                        <li>Визуализировать результаты исследования</li>
+                        <li>Формулировать научные выводы и практические рекомендации</li>
+                        <li>Создавать цифровой продукт (сайт) для представления результатов</li>
+                    </ul>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(247, 37, 133, 0.1); border-radius: var(--radius);">
+                    <h4 style="color: var(--accent); margin-bottom: 15px;">
+                        <i class="fas fa-handshake"></i> Благодарности
+                    </h4>
+                    <p>Выражаю благодарность:</p>
+                    <ul style="margin: 10px 0 10px 20px;">
+                        <li>Научному руководителю за ценные консультации</li>
+                        <li>Всем респондентам, принявшим участие в опросе</li>
+                        <li>Одноклассникам за обсуждение и поддержку</li>
+                    </ul>
+                </div>
+                
+                <div class="qr-container">
+                    <h4 style="color: var(--primary); margin-bottom: 15px;">
+                        <i class="fas fa-qrcode"></i> Быстрый доступ к сайту
+                    </h4>
+                    <div class="qr-code">
+                        QR-код<br>сайта
+                    </div>
+                    <p>Отсканируйте код для быстрого перехода на сайт с мобильного устройства</p>
+                </div>
+                
+                <div id="projectDate" style="text-align: center; margin-top: 20px; color: var(--gray); font-size: 0.9rem; padding-top: 20px; border-top: 1px solid var(--light-gray);">
+                    <!-- Дата добавится через JavaScript -->
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <span class="text-3xl font-bold text-[#FF6B6B]">Tropic</span>
-                        <span class="text-3xl font-bold text-[#4ECDC4]">Box</span>
-                    </div>
-                    <p class="text-gray-400" data-i18n="footer.description">
-                        Доставляем самые экзотические фрукты мира прямо к вашей двери.
-                    </p>
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <h3>Исследовательский проект</h3>
+                    <p>«Социальные сети: почему люди предпочитают реальному общению виртуальный мир?» — интерактивное исследование, основанное на опросе среди старшеклассников. Автор: Перелыгина Ульяна, 10 «А» класс.</p>
                 </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold mb-4" data-i18n="footer.explore">Исследовать</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.fruits">Наши фрукты</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.subscriptions">Подписки</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.gifts">Подарочные карты</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.blog">Блог</a></li>
+                <div class="footer-links">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#paradox">Парадокс в цифрах</a></li>
+                        <li><a href="#analysis">Анализ результатов</a></li>
+                        <li><a href="#methodology">Методология</a></li>
+                        <li><a href="#test">Интерактивный тест</a></li>
+                        <li><a href="#media">Карта медиапотребления</a></li>
+                        <li><a href="#recommendations">Практические рекомендации</a></li>
+                        <li><a href="#conclusions">Выводы</a></li>
                     </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold mb-4" data-i18n="footer.company">Компания</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.about">О нас</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.sustainability">Устойчивое развитие</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.careers">Карьера</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition" data-i18n="footer.contact">Контакты</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold mb-4" data-i18n="footer.connect">Будьте на связи</h4>
-                    <div class="flex space-x-4 mb-4">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#FF6B6B] transition">
-                            <span class="sr-only">Facebook</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#FF6B6B] transition">
-                            <span class="sr-only">Instagram</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#FF6B6B] transition">
-                            <span class="sr-only">Twitter</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-                            </svg>
-                        </a>
-                    </div>
-                    <p class="text-gray-400" data-i18n="footer.newsletter">
-                        Подпишитесь на нашу рассылку для получения еженедельных обновлений о фруктах и эксклюзивных предложений.
-                    </p>
-                    <div class="mt-4 flex">
-                        <input type="email" placeholder="Ваш email" class="bg-gray-800 text-white px-4 py-2 rounded-l focus:outline-none w-full">
-                        <button class="bg-[#FF6B6B] px-4 py-2 rounded-r hover:bg-[#ff5252] transition" data-i18n="footer.subscribe">
-                            Подписаться
-                        </button>
-                    </div>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm">
-                    © 2023 TropicBox. Все права защищены.
-                </p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-white transition text-sm" data-i18n="footer.privacy">Политика конфиденциальности</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition text-sm" data-i18n="footer.terms">Условия обслуживания</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition text-sm" data-i18n="footer.shipping">Условия доставки</a>
-                </div>
+            <div class="copyright">
+                <p>© 2024 Исследовательский проект «Социальные сети vs Реальное общение». Автор: Перелыгина Ульяна, 10 «А» класс. Все данные получены в результате анонимного опроса. Использование материалов возможно со ссылкой на источник.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Print Button -->
+    <button class="print-btn" id="printBtn">
+        <i class="fas fa-print"></i> Версия для печати
+    </button>
+
     <script>
-        // Language and currency management
-        const translations = {
-            ru: {
-                "nav.home": "Главная",
-                "nav.fruits": "Наши фрукты",
-                "nav.weekly": "Фрукт недели",
-                "nav.quiz": "Найди свой фрукт",
-                "hero.exotic": "Экзотические",
-                "hero.fruits": "фрукты",
-                "hero.delivery": "с доставкой к вам домой",
-                "hero.description": "Откройте для себя самые редкие и вкусные фрукты со всего мира. Свежие, органические и доставленные прямо к вашей двери.",
-                "hero.order": "Заказать сейчас",
-                "hero.learn": "Узнать больше",
-                "fruits.title": "Наша экзотическая коллекция",
-                "fruits.subtitle": "Мы предлагаем только лучшие экзотические фрукты с экологичных ферм по всему миру.",
-                "fruits.dragonfruit.name": "Драконий фрукт",
-                "fruits.dragonfruit.desc": "Сладкий, освежающий вкус с ярко-розовой мякотью",
-                "fruits.mangosteen.name": "Мангустин",
-                "fruits.mangosteen.desc": "\"Королева фруктов\" со сладко-терпким вкусом",
-                "fruits.rambutan.name": "Рамбутан",
-                "fruits.rambutan.desc": "Сочный фрукт, похожий на личи, с волосистой кожурой",
-                "fruits.add": "Добавить в корзину",
-                "fruits.view": "Посмотреть все фрукты",
-                "weekly.title": "Фрукт недели",
-                "weekly.subtitle": "Каждую неделю мы предлагаем редкий фрукт по специальной цене. Не упустите - эти предложения быстро заканчиваются!",
-                "weekly.limited": "ЛИМИТИРОВАННО",
-                "weekly.durian.name": "Дуриан",
-                "weekly.durian.desc": "\"Король фруктов\" - любите его или ненавидите, этот деликатес из Юго-Восточной Азии незабываем благодаря своей кремовой текстуре и сильному аромату.",
-                "weekly.discount": "33% СКИДКА",
-                "weekly.add": "Добавить в корзину - ограниченное предложение!",
-                "weekly.hurry": "Торопитесь! Предложение заканчивается через:",
-                "weekly.minutes": "секунд",
-                "weekly.left": "Осталось 12 коробок по этой цене!",
-                "how.title": "Как работает TropicBox",
-                "how.step1.title": "Выберите фрукты",
-                "how.step1.desc": "Выберите из нашей ротации экзотических фруктов или позвольте нам удивить вас нашими тематическими коробками.",
-                "how.step2.title": "Быстрая доставка",
-                "how.step2.desc": "Мы собираем фрукты по заказу и отправляем немедленно, чтобы обеспечить максимальную свежесть при получении.",
-                "how.step3.title": "Наслаждайтесь",
-                "how.step3.desc": "Получите советы по приготовлению и интересные факты о каждом фрукте, чтобы улучшить ваш вкусовой опыт.",
-                "quiz.title": "Какой экзотический фрукт подходит вам?",
-                "quiz.subtitle": "Пройдите наш быстрый тест, и мы порекомендуем идеальный экзотический фрукт для ваших вкусовых предпочтений.",
-                "quiz.intro.title": "Найдите свой идеальный фрукт",
-                "quiz.intro.desc": "Ответьте всего на 3 простых вопроса, и мы порекомендуем экзотический фрукт, который вам понравится!",
-                "quiz.start": "Начать тест",
-                "quiz.result.title": "Ваш идеальный фрукт...",
-                "quiz.again": "Пройти тест снова",
-                "testimonials.title": "Что говорят наши клиенты",
-                "testimonials.review1": "\"Драконий фрукт был самым свежим, который я когда-либо пробовала! Розовая мякоть была такой яркой и сладкой. Обязательно закажу снова.\"",
-                "testimonials.review2": "\"Наконец попробовал дуриан благодаря TropicBox! Руководство по приготовлению было очень полезным. Такой уникальный опыт.\"",
-                "testimonials.review3": "\"Предложения \"фрукт недели\" просто потрясающие. Я открыла для себя так много новых любимых фруктов, которые никогда бы не попробовала иначе.\"",
-                "cta.title": "Готовы исследовать мир экзотических фруктов?",
-                "cta.subtitle": "Присоединяйтесь к тысячам любителей фруктов, которые получают свежие, редкие фрукты еженедельно.",
-                "cta.button": "Начните своё фруктовое путешествие",
-                "footer.description": "Доставляем самые экзотические фрукты мира прямо к вашей двери.",
-                "footer.explore": "Исследовать",
-                "footer.fruits": "Наши фрукты",
-                "footer.subscriptions": "Подписки",
-                "footer.gifts": "Подарочные карты",
-                "footer.blog": "Блог",
-                "footer.company": "Компания",
-                "footer.about": "О нас",
-                "footer.sustainability": "Устойчивое развитие",
-                "footer.careers": "Карьера",
-                "footer.contact": "Контакты",
-                "footer.connect": "Будьте на связи",
-                "footer.newsletter": "Подпишитесь на нашу рассылку для получения еженедельных обновлений о фруктах и эксклюзивных предложений.",
-                "footer.subscribe": "Подписаться",
-                "footer.privacy": "Политика конфиденциальности",
-                "footer.terms": "Условия обслуживания",
-                "footer.shipping": "Условия доставки"
-            },
-            en: {
-                "nav.home": "Home",
-                "nav.fruits": "Our Fruits",
-                "nav.weekly": "Fruit of the Week",
-                "nav.quiz": "Find Your Fruit",
-                "hero.exotic": "Exotic",
-                "hero.fruits": "Fruits",
-                "hero.delivery": "Delivered to Your Door",
-                "hero.description": "Discover the rarest, most delicious fruits from around the world. Fresh, organic, and delivered straight to your home.",
-                "hero.order": "Order Now",
-                "hero.learn": "Learn More",
-                "fruits.title": "Our Exotic Selection",
-                "fruits.subtitle": "We source only the finest exotic fruits from sustainable farms around the world.",
-                "fruits.dragonfruit.name": "Dragon Fruit",
-                "fruits.dragonfruit.desc": "Sweet, refreshing taste with vibrant pink flesh",
-                "fruits.mangosteen.name": "Mangosteen",
-                "fruits.mangosteen.desc": "The \"queen of fruits\" with sweet-tangy flavor",
-                "fruits.rambutan.name": "Rambutan",
-                "fruits.rambutan.desc": "Juicy, lychee-like fruit with hairy exterior",
-                "fruits.add": "Add to Box",
-                "fruits.view": "View All Fruits",
-                "weekly.title": "Fruit of the Week",
-                "weekly.subtitle": "Each week we feature a rare fruit at a special price. Don't wait - these deals disappear fast!",
-                "weekly.limited": "LIMITED",
-                "weekly.durian.name": "Durian",
-                "weekly.durian.desc": "The \"king of fruits\" - love it or hate it, this Southeast Asian delicacy is unforgettable with its custard-like texture and strong aroma.",
-                "weekly.discount": "33% OFF",
-                "weekly.add": "Add to Box - Limited Offer!",
-                "weekly.hurry": "Hurry! Offer ends in:",
-                "weekly.minutes": "minutes",
-                "weekly.left": "Only 12 boxes left at this price!",
-                "how.title": "How TropicBox Works",
-                "how.step1.title": "Choose Your Fruits",
-                "how.step1.desc": "Select from our rotating selection of exotic fruits or let us surprise you with our curated boxes.",
-                "how.step2.title": "Fast Delivery",
-                "how.step2.desc": "We harvest to order and ship immediately to ensure maximum freshness upon arrival.",
-                "how.step3.title": "Enjoy & Explore",
-                "how.step3.desc": "Receive preparation tips and fun facts about each fruit to enhance your tasting experience.",
-                "quiz.title": "Which Exotic Fruit is Right for You?",
-                "quiz.subtitle": "Take our quick quiz and we'll recommend the perfect exotic fruit for your taste preferences.",
-                "quiz.intro.title": "Find Your Perfect Fruit Match",
-                "quiz.intro.desc": "Answer just 3 simple questions and we'll recommend an exotic fruit you'll love!",
-                "quiz.start": "Start Quiz",
-                "quiz.result.title": "Your Perfect Fruit Match Is...",
-                "quiz.again": "Take Quiz Again",
-                "testimonials.title": "What Our Customers Say",
-                "testimonials.review1": "\"The dragon fruit was the freshest I've ever had! The pink flesh was so vibrant and sweet. Will definitely order again.\"",
-                "testimonials.review2": "\"Finally tried durian thanks to TropicBox! The preparation guide was super helpful. Such a unique experience.\"",
-                "testimonials.review3": "\"The fruit of the week deals are amazing. I've discovered so many new favorites I never would have tried otherwise.\"",
-                "cta.title": "Ready to Explore the World of Exotic Fruits?",
-                "cta.subtitle": "Join thousands of fruit explorers enjoying fresh, rare fruits delivered weekly.",
-                "cta.button": "Start Your Fruit Journey",
-                "footer.description": "Bringing the world's most exotic fruits straight to your doorstep.",
-                "footer.explore": "Explore",
-                "footer.fruits": "Our Fruits",
-                "footer.subscriptions": "Subscription Boxes",
-                "footer.gifts": "Gift Cards",
-                "footer.blog": "Blog",
-                "footer.company": "Company",
-                "footer.about": "About Us",
-                "footer.sustainability": "Sustainability",
-                "footer.careers": "Careers",
-                "footer.contact": "Contact",
-                "footer.connect": "Stay Connected",
-                "footer.newsletter": "Subscribe to our newsletter for weekly fruit updates and exclusive offers.",
-                "footer.subscribe": "Subscribe",
-                "footer.privacy": "Privacy Policy",
-                "footer.terms": "Terms of Service",
-                "footer.shipping": "Shipping Policy"
-            }
-        };
-
-        const quizQuestions = {
-            ru: [
-                {
-                    question: "Какой вкус вы предпочитаете?",
-                    options: [
-                        { text: "Сладкий и сочный", fruit: "Мангустин" },
-                        { text: "Терпкий и кисловатый", fruit: "Маракуйя" },
-                        { text: "Сливочный и насыщенный", fruit: "Дуриан" },
-                        { text: "Освежающий и лёгкий", fruit: "Драконий фрукт" }
-                    ]
-                },
-                {
-                    question: "Насколько вы готовы экспериментировать с текстурами?",
-                    options: [
-                        { text: "Обожаю необычные текстуры", fruit: "Рамбутан" },
-                        { text: "Предпочитаю гладкие текстуры", fruit: "Манго" },
-                        { text: "Люблю немного хруста", fruit: "Звёздное яблоко" },
-                        { text: "Готов(а) на всё", fruit: "Джекфрут" }
-                    ]
-                },
-                {
-                    question: "Что для вас важнее всего во фрукте?",
-                    options: [
-                        { text: "Внешний вид", fruit: "Питайя" },
-                        { text: "Польза для здоровья", fruit: "Ацерола" },
-                        { text: "Необычный вкус", fruit: "Чудо-ягода" },
-                        { text: "Культурная значимость", fruit: "Рука Будды" }
-                    ]
-                }
-            ],
-            en: [
-                {
-                    question: "What's your preferred flavor profile?",
-                    options: [
-                        { text: "Sweet and juicy", fruit: "Mangosteen" },
-                        { text: "Tart and tangy", fruit: "Passion Fruit" },
-                        { text: "Creamy and rich", fruit: "Durian" },
-                        { text: "Refreshing and light", fruit: "Dragon Fruit" }
-                    ]
-                },
-                {
-                    question: "How adventurous are you with textures?",
-                    options: [
-                        { text: "I love unique textures", fruit: "Rambutan" },
-                        { text: "I prefer smooth textures", fruit: "Mango" },
-                        { text: "I enjoy a bit of crunch", fruit: "Star Apple" },
-                        { text: "I'm open to anything", fruit: "Jackfruit" }
-                    ]
-                },
-                {
-                    question: "What's most important in your fruit experience?",
-                    options: [
-                        { text: "Visual appeal", fruit: "Pitaya" },
-                        { text: "Nutritional benefits", fruit: "Acerola Cherry" },
-                        { text: "Unique taste", fruit: "Miracle Berry" },
-                        { text: "Cultural significance", fruit: "Buddha's Hand" }
-                    ]
-                }
-            ]
-        };
-
-        const fruitInfo = {
-            ru: {
-                "Мангустин": {
-                    desc: "Известный как 'королева фруктов', мангустин предлагает идеальный баланс сладкого и терпкого вкуса с сочной, сегментированной мякотью.",
-                    img: "mangosteen.png"
-                },
-                "Маракуйя": {
-                    desc: "Кислая, ароматная и насыщенная вкусом, маракуйя идеально подходит для добавления пикантности в напитки, десерты или для употребления прямо из кожуры.",
-                    img: "maraquia.png"
-                },
-                "Дуриан": {
-                    desc: "'Король фруктов' знаменит своим сильным ароматом и богатой, кремовой текстурой. Не для слабонервных, но любим гурманами.",
-                    img: "durian.png"
-                },
-                "Драконий фрукт": {
-                    desc: "С его ярко-розовой мякотью и мягким, сладким вкусом, драконий фрукт идеален для тех, кто любит визуально эффектные фрукты с освежающим вкусом.",
-                    img: "dragonfruit.png"
-                },
-                "Рамбутан": {
-                    desc: "Этот волосатый на вид фрукт скрывает сладкую, сочную мякоть, похожую на личи. Идеален для тех, кто любит игривые текстуры и вкусы.",
-                    img: "rambotan.png"
-                },
-                "Манго": {
-                    desc: "Классический тропический фрукт, манго не нуждается в представлении с его сладкой, гладкой мякотью и универсальностью в сладких и солёных блюдах.",
-                    img: "https://cdn.metro-cc.ru/ru/ru_pim_428976001001_01.png"
-                },
-                "Звёздное яблоко": {
-                    desc: "Этот уникальный фрукт имеет молочную, сладкую мякоть с узором в виде звезды при поперечном разрезе. Красивый и вкусный выбор.",
-                    img: "https://avatars.dzeninfra.ru/get-zen_doc/1898210/pub_5dc647f679a58f40873a294b_5dc6485ae8c8e22cded81e5f/scale_1200"
-                },
-                "Джекфрут": {
-                    desc: "Огромный по размеру и универсальный в использовании, джекфрут можно употреблять сладким, когда он созрел, или как заменитель мяса, когда незрелый.",
-                    img: "https://cdn.culture.ru/images/8ca86920-2242-5eca-a1a3-a30b7633bd7d"
-                },
-                "Питайя": {
-                    desc: "Другое название драконьего фрукта, питайя известна своим потрясающим внешним видом и мягким, освежающим вкусом.",
-                    img: "https://avatars.mds.yandex.net/i?id=af39a50580adf03a26edadf67d2b33f0978abe99-4855057-images-thumbs&n=13"
-                },
-                "Ацерола": {
-                    desc: "Богатая витамином С, эта терпкая вишня идеальна для любителей фруктов, заботящихся о здоровье, которые ценят кислый вкус.",
-                    img: "https://avatars.mds.yandex.net/i?id=66304205a436ad947cab585e6e176d6c2266a0f2-2480510-images-thumbs&n=13"
-                },
-                "Чудо-ягода": {
-                    desc: "Эта удивительная ягода временно изменяет вкусовое восприятие, делая кислые продукты сладкими. Обязательна к пробе для кулинарных авантюристов.",
-                    img: "https://i.pinimg.com/originals/4e/88/f5/4e88f5e2917d19a3aa66c06e0f93589e.png"
-                },
-                "Рука Будды": {
-                    desc: "Более ароматный, чем съедобный, этот уникальный цитрус ценится за свой запах и использование для цедры и ароматизации блюд.",
-                    img: "https://i.pinimg.com/originals/a6/cc/16/a6cc16409554571cf3b134e104aac47c.jpg"
-                }
-            },
-            en: {
-                "Mangosteen": {
-                    desc: "Known as the 'queen of fruits', mangosteen offers a perfect balance of sweet and tart flavors with its juicy, segmented flesh.",
-                    img: "mangosteen.png"
-                },
-                "Passion Fruit": {
-                    desc: "Tart, aromatic, and packed with flavor, passion fruit is ideal for adding zing to drinks, desserts, or enjoying straight from the shell.",
-                    img: "maraquia.png"
-                },
-                "Durian": {
-                    desc: "The 'king of fruits' is famous for its strong aroma and rich, custard-like texture. Not for the faint of heart but beloved by adventurous foodies.",
-                    img: "durian.png"
-                },
-                "Dragon Fruit": {
-                    desc: "With its vibrant pink flesh and mild, sweet flavor, dragon fruit is perfect for those who enjoy visually stunning fruits with refreshing taste.",
-                    img: "dragonfruit.png"
-                },
-                "Rambutan": {
-                    desc: "This hairy-looking fruit hides a sweet, juicy flesh similar to lychee. Perfect for those who enjoy playful textures and flavors.",
-                    img: "rambotan.png"
-                },
-                "Mango": {
-                    desc: "The classic tropical fruit, mango needs no introduction with its sweet, smooth flesh and versatility in both sweet and savory dishes.",
-                    img: "https://cdn.metro-cc.ru/ru/ru_pim_428976001001_01.png"
-                },
-                "Star Apple": {
-                    desc: "This unique fruit has a milky, sweet flesh with a star pattern when cut crosswise. A beautiful and delicious choice.",
-                    img: "https://avatars.dzeninfra.ru/get-zen_doc/1898210/pub_5dc647f679a58f40873a294b_5dc6485ae8c8e22cded81e5f/scale_1200"
-                },
-                "Jackfruit": {
-                    desc: "Massive in size and versatile in use, jackfruit can be enjoyed sweet when ripe or as a meat substitute when unripe.",
-                    img: "https://cdn.culture.ru/images/8ca86920-2242-5eca-a1a3-a30b7633bd7d"
-                },
-                "Pitaya": {
-                    desc: "Another name for dragon fruit, pitaya is known for its stunning appearance and mild, refreshing taste.",
-                    img: "https://avatars.mds.yandex.net/i?id=af39a50580adf03a26edadf67d2b33f0978abe99-4855057-images-thumbs&n=13"
-                },
-                "Acerola Cherry": {
-                    desc: "Packed with vitamin C, these tart cherries are perfect for health-conscious fruit lovers who enjoy a tangy flavor.",
-                    img: "https://avatars.mds.yandex.net/i?id=66304205a436ad947cab585e6e176d6c2266a0f2-2480510-images-thumbs&n=13"
-                },
-                "Miracle Berry": {
-                    desc: "This fascinating berry temporarily alters taste perception, making sour foods taste sweet. A must-try for culinary adventurers.",
-                    img: "https://i.pinimg.com/originals/4e/88/f5/4e88f5e2917d19a3aa66c06e0f93589e.png"
-                },
-                "Buddha's Hand": {
-                    desc: "More aromatic than edible, this unique citrus is prized for its fragrance and use in zesting and flavoring dishes.",
-                    img: "https://i.pinimg.com/originals/a6/cc/16/a6cc16409554571cf3b134e104aac47c.jpg"
-                }
-            }
-        };
-
-        let currentLanguage = 'ru';
-        let currentQuestion = 0;
-        let selectedOptions = [];
-
-        // Initialize the page with Russian language
-        document.addEventListener('DOMContentLoaded', function() {
-            updatePrices();
-            translatePage();
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
         });
-
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            document.getElementById('current-language').textContent = lang.toUpperCase();
-            updatePrices();
-            translatePage();
-            
-            // Reset quiz if it was started
-            if (document.getElementById('quiz-questions').classList.contains('hidden') === false || 
-                document.getElementById('quiz-result').classList.contains('hidden') === false) {
-                resetQuiz();
-            }
-        }
-
-        function updatePrices() {
-            const exchangeRate = 90; // 1 USD = 90 RUB
-            const priceElements = document.querySelectorAll('.price');
-            
-            priceElements.forEach(element => {
-                const price = parseFloat(element.getAttribute('data-price'));
-                if (currentLanguage === 'ru') {
-                    const rubPrice = Math.round(price * exchangeRate);
-                    element.textContent = `${rubPrice} ₽`;
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                }
+            });
+        });
+        
+        // Test functionality
+        const options = document.querySelectorAll('.option');
+        const submitBtn = document.getElementById('submitTest');
+        const testResult = document.getElementById('testResult');
+        
+        let selectedAnswers = {
+            1: null,
+            2: [],
+            3: null
+        };
+        
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.getAttribute('data-question');
+                const value = this.getAttribute('data-value');
+                
+                if (question === '2') {
+                    // Multiple selection for question 2
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        const index = selectedAnswers[2].indexOf(value);
+                        if (index > -1) {
+                            selectedAnswers[2].splice(index, 1);
+                        }
+                    } else {
+                        // Allow max 2 selections for question 2
+                        if (selectedAnswers[2].length < 2) {
+                            this.classList.add('selected');
+                            selectedAnswers[2].push(value);
+                        }
+                    }
                 } else {
-                    element.textContent = `$${price.toFixed(2)}`;
+                    // Single selection for questions 1 and 3
+                    // Remove selected class from other options in the same question
+                    const questionOptions = document.querySelectorAll(`.option[data-question="${question}"]`);
+                    questionOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    selectedAnswers[question] = value;
                 }
             });
-        }
-
-        function translatePage() {
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                element.textContent = translations[currentLanguage][key] || key;
-            });
-        }
-
-        // Countdown timer for fruit of the week
-        let seconds = 60;
-        const countdown = setInterval(() => {
-            seconds--;
-            document.getElementById('countdown-minutes').textContent = 
-                `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
-            
-            if (seconds <= 0) {
-                clearInterval(countdown);
-            }
-        }, 1000);
-
-        function startQuiz() {
-            document.getElementById('quiz-intro').classList.add('hidden');
-            document.getElementById('quiz-questions').classList.remove('hidden');
-            showQuestion(currentQuestion);
-        }
-
-        function showQuestion(index) {
-            const quizContainer = document.getElementById('quiz-questions');
-            const question = quizQuestions[currentLanguage][index];
-            
-            let html = `
-                <h3 class="text-xl font-bold mb-6">${question.question}</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            `;
-            
-            question.options.forEach((option, i) => {
-                html += `
-                    <div class="quiz-option bg-[#FFF5E6] p-4 rounded-lg cursor-pointer text-center" onclick="selectOption(${i})">
-                        ${option.text}
-                    </div>
-                `;
-            });
-            
-            html += `</div>`;
-            
-            if (index > 0) {
-                const backText = currentLanguage === 'ru' ? 'Назад' : 'Back';
-                html += `<button onclick="previousQuestion()" class="border-2 border-[#4ECDC4] text-[#4ECDC4] px-6 py-2 rounded-full mr-4 hover:bg-[#4ECDC4] hover:text-white transition">${backText}</button>`;
-            }
-            
-            if (index < quizQuestions[currentLanguage].length - 1) {
-                const nextText = currentLanguage === 'ru' ? 'Далее' : 'Next';
-                html += `<button onclick="nextQuestion()" class="bg-[#FF6B6B] text-white px-6 py-2 rounded-full hover:bg-[#ff5252] transition">${nextText}</button>`;
-            } else {
-                const finishText = currentLanguage === 'ru' ? 'Завершить' : 'Finish';
-                html += `<button onclick="showResult()" class="bg-[#FF6B6B] text-white px-6 py-2 rounded-full hover:bg-[#ff5252] transition">${finishText}</button>`;
-            }
-            
-            quizContainer.innerHTML = html;
-        }
-
-        function selectOption(index) {
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach(opt => opt.classList.remove('selected'));
-            options[index].classList.add('selected');
-            selectedOptions[currentQuestion] = quizQuestions[currentLanguage][currentQuestion].options[index].fruit;
-        }
-
-        function nextQuestion() {
-            if (selectedOptions[currentQuestion] === undefined) {
-                alert(currentLanguage === 'ru' ? "Пожалуйста, выберите вариант перед продолжением" : "Please select an option before continuing");
-                return;
-            }
-            currentQuestion++;
-            showQuestion(currentQuestion);
-        }
-
-        function previousQuestion() {
-            currentQuestion--;
-            showQuestion(currentQuestion);
-        }
-
-        function showResult() {
-            if (selectedOptions[currentQuestion] === undefined) {
-                alert(currentLanguage === 'ru' ? "Пожалуйста, выберите вариант перед продолжением" : "Please select an option before continuing");
+        });
+        
+        submitBtn.addEventListener('click', function() {
+            // Check if all questions are answered
+            if (!selectedAnswers[1] || selectedAnswers[2].length === 0 || !selectedAnswers[3]) {
+                alert('Пожалуйста, ответьте на все вопросы перед отправкой.');
                 return;
             }
             
-            // Simple recommendation - just pick the most frequent fruit in selections
-            const fruitCount = {};
-            selectedOptions.forEach(fruit => {
-                fruitCount[fruit] = (fruitCount[fruit] || 0) + 1;
-            });
+            // Show result
+            testResult.style.display = 'block';
             
-            let recommendedFruit = currentLanguage === 'ru' ? "Драконий фрукт" : "Dragon Fruit"; // default
-            let maxCount = 0;
-            for (const fruit in fruitCount) {
-                if (fruitCount[fruit] > maxCount) {
-                    maxCount = fruitCount[fruit];
-                    recommendedFruit = fruit;
+            // Scroll to result
+            testResult.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
                 }
+            });
+        });
+        
+        // Print functionality
+        const printBtn = document.getElementById('printBtn');
+        printBtn.addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Add current date to the project
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateElement = document.getElementById('projectDate');
+            const currentDate = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = currentDate.toLocaleDateString('ru-RU', options);
+            
+            dateElement.innerHTML = `Дата проведения опроса: апрель 2024 | Дата публикации результатов: ${formattedDate}`;
+            
+            // Generate simple QR code visualization
+            const qrCodeElement = document.querySelector('.qr-code');
+            if (qrCodeElement) {
+                // In a real scenario, you would generate an actual QR code image
+                // For this example, we'll create a pattern
+                const url = window.location.href;
+                qrCodeElement.innerHTML = `<div style="font-size: 0.7rem; text-align: center; padding: 10px;">Сайт исследования<br>Соцсети vs Общение</div>`;
+                qrCodeElement.title = `QR-код для быстрого доступа: ${url}`;
             }
+        });
+        
+        // Highlight current section in navigation
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a');
             
-            document.getElementById('quiz-questions').classList.add('hidden');
-            document.getElementById('quiz-result').classList.remove('hidden');
-            
-            const resultContainer = document.getElementById('result-fruit');
-            resultContainer.innerHTML = `
-                <div class="bg-white p-6 rounded-xl shadow-md max-w-md mx-auto">
-                    <h4 class="text-2xl font-bold text-[#FF6B6B] mb-4">${recommendedFruit}</h4>
-                    <img src="${fruitInfo[currentLanguage][recommendedFruit].img}" alt="${recommendedFruit}" class="w-48 h-48 mx-auto mb-4 object-contain">
-                    <p class="text-gray-600 mb-6">${fruitInfo[currentLanguage][recommendedFruit].desc}</p>
-                    <button class="w-full bg-[#FF6B6B] text-white px-6 py-3 rounded-full hover:bg-[#ff5252] transition">
-                        ${currentLanguage === 'ru' ? 'Добавить в корзину' : 'Add to My Box'}
-                    </button>
-                </div>
-            `;
-        }
-
-        function resetQuiz() {
-            currentQuestion = 0;
-            selectedOptions = [];
-            document.getElementById('quiz-result').classList.add('hidden');
-            document.getElementById('quiz-questions').classList.add('hidden');
-            document.getElementById('quiz-intro').classList.remove('hidden');
-        }
-
-        // 3D hover effects for fruit cards
-        document.querySelectorAll('.fruit-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
             });
             
-            card.addEventListener('mouseenter', () => {
-                card.style.transition = 'none';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transition = 'all 0.5s ease';
-                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
             });
         });
     </script>
